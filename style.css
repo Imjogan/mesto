@@ -177,9 +177,16 @@
   height: auto;
 }
 
-.element__title {
+.element__box {
+  display: flex;
+  flex-direction: row;
   margin: 0;
   padding: 25px 20px 25px;
+}
+
+.element__title {
+  margin: 0;
+  padding: 0;
   color: #000;
   font-style: normal;
   font-weight: 900;
@@ -188,8 +195,31 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 80%;
 }
 
+.like {
+  margin: auto 0 auto auto;
+  padding: 0;
+  width: 20px;
+  height: 18px;
+  justify-self: flex-end;
+  background-image: url(./like.svg);
+  background-position: center;
+  background-size: cover;
+}
+
+/* .like_active {
+  background-image: url(./like-active.svg);
+} */
+
+.like:hover {
+  opacity: .5;
+}
+
+.like:focus {
+  background-image: url(./like-active.svg);
+}
 /*----- start footer -----*/
 /* block */
 .footer {
