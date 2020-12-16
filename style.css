@@ -1,0 +1,396 @@
+@import url(../project-4/vendor/normalize.css);
+@import url(./vendor/fonts.css);
+
+.root {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+}
+
+.page {
+  margin: 0 auto;
+  padding: 0;
+  color: white;
+  font-family: Inter;
+  max-width: 880px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -ms-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern";
+}
+
+/*----- start header -----*/
+.header {
+  padding: 45px 0 0;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+  min-height: 74px;
+}
+
+.header__logo {
+  height: 33px;
+  width: 142px;
+  background-image: url(./logo.svg);
+  background-position: center;
+  background-size: cover;
+  align-self: flex-start;
+  justify-self: start;
+}
+/*----- end header -----*/
+
+/*----- start profile -----*/
+.profile {
+  padding: 0;
+  margin: 0 auto 51px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 880px) {
+  .profile {
+    padding: 0 50px;
+  }
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  background-image: url(./avatar.jpg);
+  background-position: top;
+  background-size: cover;
+  border-radius: 50%;
+  margin-right: 30px;
+}
+
+.profile__info {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.profile__info-box {
+  padding: 0;
+  margin: 0 0 16px;
+  display: flex;
+  flex-direction: row;
+}
+
+.profile__name {
+  margin: 0 18px 0 0;
+  padding: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 76%;
+}
+
+.profile__text {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 122%;
+}
+
+.edit-button {
+  margin: 0;
+  padding: 0;
+  align-self: flex-end;
+  text-decoration: none;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  border: 2px solid white;
+  border-radius: 1px;
+  display: flex;
+}
+
+.edit-button__pen {
+  margin: auto;
+  width: 10px;
+  height: 10px;
+  background-image: url(./pen.png);
+  background-position: center;
+  background-size: cover;
+}
+
+.add-button {
+  margin: 0 0 0 auto;
+  width: 150px;
+  height: 50px;
+  align-self: center;
+  justify-self: end;
+  box-sizing: border-box;
+  border: 2px solid white;
+  border-radius: 2px;
+  display: flex;
+}
+
+.add-button__cross {
+  margin: auto;
+  width: 22px;
+  height: 22px;
+  background-image: url(./cross.svg);
+  background-position: center;
+  background-size: cover;
+}
+/*----- end profile -----*/
+
+.cards {
+  padding: 0;
+  margin: 0 auto 67px;
+}
+
+.elements {
+  padding: 0;
+  margin: 0 auto;
+  list-style: none;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  grid-gap: 20px 17px;
+}
+
+.element {
+  padding: 0;
+  margin: 0 auto;
+  max-width: 282px;
+  max-height: 361px;
+  border-radius: 10px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.element__image {
+  width: 100%;
+  height: auto;
+}
+
+.element__title {
+  margin: 0;
+  padding: 25px 20px 25px;
+  color: #000;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/*----- start footer -----*/
+/* block */
+.footer {
+  margin: 67px auto 0;
+  padding: 0 0 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.footer__copyright {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  color: rgb(84,84,84);
+  font-size: 18px;
+  line-height: 22px;
+}
+/*----- end footer -----*/
+
+
+@media screen and (max-width: 734px) {
+  .profile {
+    justify-content: center;
+  }
+
+  .avatar {
+    margin-bottom: 26px;
+  }
+
+  .add-button {
+    margin: 30px auto 0;
+    justify-self: center;
+    width: 100%;
+  }
+
+}
+
+/* popup */
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .8);
+  display: none;
+}
+
+.popup__open {
+  display: block;
+}
+
+.popup__body {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 10px;
+}
+
+.popup__content {
+  background-color: white;
+  color: #000;
+  max-width: 430px;
+  padding: 34px 36px 37px;
+  position: relative;
+  border-radius: 10px;
+}
+
+.popup__button-close {
+  width: 22px;
+  height: 22px;
+  background-image: url(./cross.svg);
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  transform: scale(1.5) rotate(45deg);
+  transition: opacity .4s ease;
+}
+
+.popup__button-close:hover {
+  opacity: .8;
+}
+
+.popup__title {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 0 0 40px;
+  border: 0;
+}
+
+.popup__text {
+  margin: 0;
+}
+
+.form__input-container {
+  width: 240px;
+  margin: auto;
+  padding-bottom: 50px;
+  border: 0;
+}
+
+.form__item {
+  border: 0;
+  width: 100%;
+  height: 24px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #bcbcc4;
+  background-color: transparent;
+  margin: 0 0 30px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form__item:last-of-type {
+  margin: 0;
+}
+
+/* Замена цвета внешней линии при фокусе поля ввода */
+.form__item:focus {
+  outline-color: #4992d6;
+}
+/* Стилизуем плейсхолдеры */
+.form__item::placeholder {
+  font-size: 14px;
+  font-family: Inter;
+  line-height: 20px;
+  color: #bcbcc4;
+}
+
+.form__item::-webkit-input-placeholder {
+  font-size: 14px;
+  font-family: Inter;
+  line-height: 20px;
+  color: #bcbcc4;
+}
+
+.form__item::-moz-placeholder {
+  font-size: 14px;
+  font-family: Inter;
+  line-height: 20px;
+  color: #bcbcc4;
+}
+
+.form__item::-ms-input-placeholder {
+  font-size: 14px;
+  font-family: Inter;
+  line-height: 20px;
+  color: #bcbcc4;
+}
+
+.form__item_el_main-text {
+  background: #fff;
+  height: 150px;
+  font-size: 14px;
+  padding: 6px 6px 4px;
+  border: 1px solid #bcbcc4;
+}
+
+.form__fields {
+  margin: 0 0 48px;
+  width: 100%;
+  font-size: 0;
+  border: 0;
+}
+
+.form__handlers {
+  margin: 0;
+  width: 100%;
+  height: 40px;
+  font-size: 0;
+  border: 0;
+}
+
+.form__button {
+  height: 50px;
+  font-size: 14px;
+  border: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: opacity .4s;
+  color: white;
+  font-family: inherit;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.form__button:hover {
+  opacity: .7;
+}
+
+/* Замена цвета внешней линии при фокусе кнопки */
+.form__button:focus {
+  outline-color: #fff6c5;
+}
+
+.form__button[type="submit"] {
+  background-color: #000;
+}

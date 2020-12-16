@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>mesto</title>
+</head>
+<body class="root">
+  <div class="page">
+    <header class="header">
+      <a href="#" class="header__logo"></a>
+    </header>
+<main class="main">
+
+    <section class="profile">
+      <a href="#" class="avatar"></a>
+      <div class="profile__info">
+        <div class="profile__info-box">
+          <h3 class="profile__name">Жак-Ив Кусто</h3>
+          <a href="#" id="edit-button" class="edit-button"><div class="edit-button__pen"></div></a>
+        </div>
+        <p class="profile__text">Исследователь океана</p>
+      </div>
+      <a href="#" class="add-button"><div class="add-button__cross"></div></a>
+    </section>
+
+    <section class="cards">
+      <ul class="elements">
+        <li class="element">
+          <img src="./card-1.jpg" alt="" class="element__image">
+          <div class="element__box">
+            <p class="element__title">Карачаевск</p>
+            <a class="like" href="#"></a>
+          </div>
+        </li>
+        <li class="element">
+          <img src="./card-2.jpg" alt="" class="element__image">
+          <p class="element__title">Гора Эльбрус</p>
+          <a class="like" href="#"></a> 
+        </li>
+        <li class="element">
+          <img src="./card-3.jpg" alt="" class="element__image">
+          <p class="element__title">Домой</p>
+          <a class="like" href="#"></a> 
+        </li>
+        <li class="element">
+          <img src="./card-2.jpg" alt="" class="element__image">
+          <p class="element__title">Гора Эльбрус</p>
+          <a class="like" href="#"></a> 
+        </li>
+        <li class="element">
+          <img src="./card-3.jpg" alt="" class="element__image">
+          <p class="element__title">Домбай</p>
+          <a class="like" href="#"></a> 
+        </li>
+        <li class="element">
+          <img src="./card-1.jpg" alt="" class="element__image">
+          <p class="element__title">Карачаево-Черкесск</p>
+          <a class="like" href="#"></a>
+        </li>
+      </ul>
+    </section>
+
+</main>
+    <footer class="footer">
+      <p class="footer__copyright">&copy; 2020. Mesto Russia</p>
+    </footer>
+
+    <section id="popup" class="popup">
+      <div class="popup__body">
+        <div class="popup__content">
+          <a href="#" id="popup__button-close" class="popup__button-close"></a>
+          <h4 class="popup__title">Редактировать профиль</h4>
+          <form class="form__edit">
+            <fieldset class="form__fields">
+              <input type="text" class="form__item form__item_el_heading" id="heading" name="heading"
+                required>
+              <input type="text" class="form__item form__item_el_subheading" id="subheading" name="subheading"
+                required>
+            </fieldset>
+            <fieldset class="form__handlers">
+              <input type="submit" class="form__button">
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="./scrypt.js"></script>
+</body>
+</html>
