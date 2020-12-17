@@ -1,6 +1,3 @@
-@import url(../project-4/vendor/normalize.css);
-@import url(./vendor/fonts.css);
-
 .root {
   margin: 0;
   padding: 0;
@@ -35,7 +32,7 @@
 .header__logo {
   height: 33px;
   width: 142px;
-  background-image: url(./logo.svg);
+  background-image: url(./images/logo.svg);
   background-position: center;
   background-size: cover;
   align-self: flex-start;
@@ -59,10 +56,10 @@
   }
 }
 
-.avatar {
+.profile__avatar {
   width: 120px;
   height: 120px;
-  background-image: url(./avatar.jpg);
+  background-image: url(./images/avatar.jpg);
   background-position: top;
   background-size: cover;
   border-radius: 50%;
@@ -77,7 +74,7 @@
   align-self: center;
 }
 
-.profile__info-box {
+.profile__info-container {
   padding: 0;
   margin: 0 0 16px;
   display: flex;
@@ -93,7 +90,7 @@
   line-height: 76%;
 }
 
-.profile__text {
+.profile__status {
   margin: 0;
   padding: 0;
   font-style: normal;
@@ -102,7 +99,7 @@
   line-height: 122%;
 }
 
-.edit-button {
+.button-edit {
   margin: 0;
   padding: 0;
   align-self: flex-end;
@@ -115,16 +112,16 @@
   display: flex;
 }
 
-.edit-button__pen {
+.button-edit__pen {
   margin: auto;
   width: 10px;
   height: 10px;
-  background-image: url(./pen.png);
+  background-image: url(./images/pen.svg);
   background-position: center;
   background-size: cover;
 }
 
-.add-button {
+.button-add {
   margin: 0 0 0 auto;
   width: 150px;
   height: 50px;
@@ -136,24 +133,18 @@
   display: flex;
 }
 
-.add-button__cross {
+.button-add__plus {
   margin: auto;
   width: 22px;
   height: 22px;
-  background-image: url(./cross.svg);
+  background-image: url(./images/cross.svg);
   background-position: center;
   background-size: cover;
 }
 /*----- end profile -----*/
-
-.cards {
-  padding: 0;
-  margin: 0 auto 67px;
-}
-
 .elements {
   padding: 0;
-  margin: 0 auto;
+  margin: 0 auto 67px;
   list-style: none;
   display: grid;
   justify-content: center;
@@ -177,7 +168,7 @@
   height: auto;
 }
 
-.element__box {
+.element__container {
   display: flex;
   flex-direction: row;
   margin: 0;
@@ -204,7 +195,7 @@
   width: 20px;
   height: 18px;
   justify-self: flex-end;
-  background-image: url(./like.svg);
+  background-image: url(./images/like.svg);
   background-position: center;
   background-size: cover;
 }
@@ -218,7 +209,7 @@
 }
 
 .like:focus {
-  background-image: url(./like-active.svg);
+  background-image: url(./images/like-active.svg);
 }
 /*----- start footer -----*/
 /* block */
@@ -290,10 +281,10 @@
   border-radius: 10px;
 }
 
-.popup__button-close {
+.button-close {
   width: 22px;
   height: 22px;
-  background-image: url(./cross.svg);
+  background-image: url(./images/cross.svg);
   background-position: center;
   background-size: cover;
   position: absolute;
@@ -303,7 +294,7 @@
   transition: opacity .4s ease;
 }
 
-.popup__button-close:hover {
+.button-close:hover {
   opacity: .8;
 }
 
@@ -316,18 +307,7 @@
   border: 0;
 }
 
-.popup__text {
-  margin: 0;
-}
-
-.form__input-container {
-  width: 240px;
-  margin: auto;
-  padding-bottom: 50px;
-  border: 0;
-}
-
-.form__item {
+.form-edit__item {
   border: 0;
   width: 100%;
   height: 24px;
@@ -339,59 +319,51 @@
   font-family: inherit;
 }
 
-.form__item:last-of-type {
+.form-edit__item:last-of-type {
   margin: 0;
 }
 
 /* Замена цвета внешней линии при фокусе поля ввода */
-.form__item:focus {
+.form-edit__item:focus {
   outline-color: #4992d6;
 }
 /* Стилизуем плейсхолдеры */
-.form__item::placeholder {
+.form-edit__item::placeholder {
   font-size: 14px;
   font-family: Inter;
   line-height: 20px;
   color: #bcbcc4;
 }
 
-.form__item::-webkit-input-placeholder {
+.form-edit__item::-webkit-input-placeholder {
   font-size: 14px;
   font-family: Inter;
   line-height: 20px;
   color: #bcbcc4;
 }
 
-.form__item::-moz-placeholder {
+.form-edit__item::-moz-placeholder {
   font-size: 14px;
   font-family: Inter;
   line-height: 20px;
   color: #bcbcc4;
 }
 
-.form__item::-ms-input-placeholder {
+.form-edit__item::-ms-input-placeholder {
   font-size: 14px;
   font-family: Inter;
   line-height: 20px;
   color: #bcbcc4;
 }
 
-.form__item_el_main-text {
-  background: #fff;
-  height: 150px;
-  font-size: 14px;
-  padding: 6px 6px 4px;
-  border: 1px solid #bcbcc4;
-}
-
-.form__fields {
+.form-edit__fields {
   margin: 0 0 48px;
   width: 100%;
   font-size: 0;
   border: 0;
 }
 
-.form__handlers {
+.form-edit__handlers {
   margin: 0;
   width: 100%;
   height: 40px;
@@ -399,7 +371,7 @@
   border: 0;
 }
 
-.form__button {
+.form-edit__button {
   height: 50px;
   font-size: 14px;
   border: 0;
@@ -412,15 +384,15 @@
   width: 100%;
 }
 
-.form__button:hover {
+.form-edit__button:hover {
   opacity: .7;
 }
 
 /* Замена цвета внешней линии при фокусе кнопки */
-.form__button:focus {
+.form-edit__button:focus {
   outline-color: #fff6c5;
 }
 
-.form__button[type="submit"] {
+.form-edit__button[type="submit"] {
   background-color: #000;
 }
