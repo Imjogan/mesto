@@ -1,0 +1,24 @@
+.form-edit__button {
+  height: 50px;
+  font-size: 14px;
+  border: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: opacity .4s;
+  color: white;
+  font-family: inherit;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.form-edit__button:hover {
+  opacity: .7;
+}
+
+.form-edit__button:focus {
+  outline-color: #fff6c5;
+}
+
+.form-edit__button[type="submit"] {
+  background-color: #000;
+}

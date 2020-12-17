@@ -8,6 +8,7 @@
     border: 2px solid white;
     border-radius: 2px;
     display: flex;
+    font-size: 0;
   }
 
   @media screen and (max-width: 734px) {
@@ -15,5 +16,13 @@
       margin: 30px auto 0;
       justify-self: center;
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 435px) {
+    .button-add {
+      margin: 30px auto 0;
+      justify-self: center;
+      width: 87.5%;
     }
   }

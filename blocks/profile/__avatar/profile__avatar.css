@@ -1,7 +1,7 @@
 .profile__avatar {
     width: 120px;
     height: 120px;
-    background-image: url(./images/avatar.jpg);
+    background-image: url(../../../images/avatar.jpg);
     background-position: top;
     background-size: cover;
     border-radius: 50%;
@@ -11,5 +11,12 @@
   @media screen and (max-width: 734px) {
     .profile__avatar {
       margin-bottom: 26px;
+    }
+  }
+
+  @media screen and (max-width: 578px) {
+    .profile__avatar {
+      margin-right: 0;
+      margin-bottom: 22px;
     }
   }
