@@ -5,3 +5,9 @@
     justify-content: space-between;
     align-items: flex-end;
   }
+
+  @media screen and (max-width: 880px) {
+    .footer {
+      padding: 0 19px 36px;
+    }
+  } 

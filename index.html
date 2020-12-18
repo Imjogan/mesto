@@ -18,12 +18,11 @@
         <a href="#" class="profile__avatar"></a>
         <div class="profile__info">
           <h3 class="profile__name">Жак-Ив Кусто</h3>
-          <a href="#" id="button-edit" class="button-edit">
-            <div class="button-edit__pen"></div></a>
+          <button class="button-edit"><div class="button-edit__pen"></div></button>
           <p class="profile__status">Исследователь океана</p>
         </div>
       </div>
-      <a href="#" class="button-add"><div class="button-add__plus"></div></a>
+      <button class="button-add"><div class="button-add__plus"></div></button>
     </section>
 
     <section>
@@ -45,7 +44,7 @@
         <li class="element">
           <img src="./images/elements/element_ivanovo.jpg" alt="" class="element__image">
           <div class="element__container">
-            <p class="element__title">Иваново</p>
+            <p class="element__title">Ивановская область</p>
             <a class="like" href="#"></a>
           </div>
         </li>
@@ -76,17 +75,17 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2020. Mesto Russia</p>
     </footer>
-    <section id="popup" class="popup">
+    <section class="popup">
       <div class="popup__body">
-        <div class="popup__content">
-          <a href="#" id="button-close" class="button-close"></a>
+        <div class="popup__container">
+          <button class="button-close"></button>
           <h4 class="popup__title">Редактировать профиль</h4>
           <form class="form-edit">
             <fieldset class="form-edit__fields">
-              <input type="text" class="form-edit__item" id="profile-name" name="profile-name" required>
-                <!-- form-edit__item_profile-name -->
-              <input type="text" class="form-edit__item" id="profile-status" name="profile-status" required>
-                <!-- form-edit__item_profile-status -->
+              <input type="text" class="form-edit__item form-edit__item_profile-name"
+                name="profile-name" required>
+              <input type="text" class="form-edit__item form-edit__item_profile-status"
+                name="profile-status" required>
             </fieldset>
             <fieldset class="form-edit__handlers">
               <input type="submit" class="form-edit__button">
@@ -96,6 +95,6 @@
       </div>
     </section>
   </div>
-  <script src="./script.js"></script>
+  <script src="./scripts/script.js"></script>
 </body>
 </html>

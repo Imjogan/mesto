@@ -1,6 +1,8 @@
 .form-edit__button {
   height: 50px;
-  font-size: 14px;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
   border: 0;
   margin: 0;
   cursor: pointer;
@@ -9,6 +11,7 @@
   font-family: inherit;
   border-radius: 2px;
   width: 100%;
+  padding: 0;
 }
 
 .form-edit__button:hover {
@@ -21,4 +24,11 @@
 
 .form-edit__button[type="submit"] {
   background-color: #000;
+}
+
+@media screen and (max-width: 440px) {
+  .form-edit__button {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }
