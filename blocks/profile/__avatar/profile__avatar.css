@@ -8,15 +8,9 @@
     margin-right: 30px;
   }
 
-  @media screen and (max-width: 734px) {
+  @media screen and (max-width: 520px) {
     .profile__avatar {
-      margin-bottom: 26px;
-    }
-  }
-
-  @media screen and (max-width: 578px) {
-    .profile__avatar {
-      margin-right: 0;
-      margin-bottom: 22px;
+      margin: 0 auto 20px;
+      justify-self: center;
     }
   }

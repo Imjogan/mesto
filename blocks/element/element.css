@@ -1,8 +1,8 @@
 .element {
     padding: 0;
     margin: 0 auto;
-    max-width: 282px;
-    max-height: 361px;
+    min-width: 282px;
+    min-height: 361px;
     border-radius: 10px;
     background-color: white;
     overflow: hidden;

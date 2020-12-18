@@ -8,4 +8,5 @@
     box-sizing: border-box;
     border: 1px solid white;
     display: flex;
+    grid-area: button-edit;
   }

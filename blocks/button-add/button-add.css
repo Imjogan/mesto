@@ -11,17 +11,17 @@
     font-size: 0;
   }
 
-  @media screen and (max-width: 734px) {
+  @media screen and (max-width: 740px) {
     .button-add {
-      margin: 30px auto 0;
+      margin: 0 auto;
       justify-self: center;
       width: 100%;
     }
   }
 
+
   @media screen and (max-width: 435px) {
     .button-add {
-      margin: 30px auto 0;
       justify-self: center;
       width: 87.5%;
     }
