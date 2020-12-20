@@ -1,100 +1,104 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./pages/index.css">
     <title>mesto</title>
-</head>
-<body class="root">
-  <div class="page">
-    <header class="header">
-      <a href="#" class="header__logo"></a>
-    </header>
-<main class="main">
-
-    <section class="profile">
-      <div class="profile__container">
-        <a href="#" class="profile__avatar"></a>
-        <div class="profile__info">
-          <h3 class="profile__name">Жак-Ив Кусто</h3>
-          <button class="button-edit"><div class="button-edit__pen"></div></button>
-          <p class="profile__status">Исследователь океана</p>
+  </head>
+  <body class="root">
+    <div class="page">
+      <header class="header">
+        <a href="#" class="header__logo"></a>
+      </header>
+      <main class="main">
+        <section class="profile">
+          <div class="profile__container">
+            <a href="#" class="profile__avatar"></a>
+            <div class="profile__info">
+              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <button class="profile__button-edit"></button>
+              <p class="profile__status">Исследователь океана</p>
+            </div>
+          </div>
+          <button class="profile__button-add"></button>
+        </section>
+        <section>
+          <ul class="elements">
+            <li class="element">
+              <img src="./images/elements/element_samara.jpg" alt="Самара"
+                class="element__image">
+              <div class="element__container">
+                <h3 class="element__title">Самара</h3>
+                <button class="like"></button>
+              </div>
+            </li>
+            <li class="element">
+              <img src="./images/elements/element_moscow.jpg" alt="Москва"
+                class="element__image">
+              <div class="element__container">
+                <h3 class="element__title">Москва</h3>
+                <button class="like"></button>
+              </div>
+            </li>
+            <li class="element">
+              <img src="./images/elements/element_ivanovo.jpg" alt="Ивановская обл."
+                class="element__image">
+              <div class="element__container">
+                <h3 class="element__title">Ивановская область</h3>
+                <button class="like"></button>
+              </div>
+            </li>
+            <li class="element">
+              <img src="./images/elements/element_tsarskoe-selo.jpg" alt="Царское Село"
+                class="element__image">
+              <div class="element__container">
+                <h3 class="element__title">Царское Село</h3>
+                <button class="like"></button>
+              </div>
+            </li>
+            <li class="element">
+              <img src="./images/elements/element_irkutsk.jpg" alt="Иркутск"
+                class="element__image">
+              <div class="element__container">
+                <h3 class="element__title">Иркутск</h3>
+                <button class="like"></button>
+              </div>
+            </li>
+            <li class="element">
+              <img src="./images/elements/element_dunilovo.jpg" alt="Дунилово"
+                class="element__image">
+              <div class="element__container">
+                <h3 class="element__title">Дунилово</h3>
+                <button class="like"></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+      <footer class="footer">
+        <p class="footer__copyright">&copy; 2020. Mesto Russia</p>
+      </footer>
+      <section class="popup">
+        <div class="popup__body">
+          <div class="popup__container">
+            <button class="popup__button-close"></button>
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <form class="form-edit">
+              <fieldset class="form-edit__fields">
+                <input type="text" class="form-edit__item form-edit__item_profile-name"
+                  name="profile-name" required>
+                <input type="text" class="form-edit__item form-edit__item_profile-status"
+                  name="profile-status" required>
+              </fieldset>
+              <fieldset class="form-edit__handlers">
+                <input type="submit" class="form-edit__button">
+              </fieldset>
+            </form>
+          </div>
         </div>
-      </div>
-      <button class="button-add"><div class="button-add__plus"></div></button>
-    </section>
-
-    <section>
-      <ul class="elements">
-        <li class="element">
-          <img src="./images/elements/element_samara.jpg" alt="" class="element__image">
-          <div class="element__container">
-            <p class="element__title">Самара</p>
-            <a id="like" class="like" href="#"></a>
-          </div>
-        </li>
-        <li class="element">
-          <img src="./images/elements/element_moscow.jpg" alt="" class="element__image">
-          <div class="element__container">
-            <p class="element__title">Москва</p>
-            <a class="like" href="#"></a>
-          </div>
-        </li>
-        <li class="element">
-          <img src="./images/elements/element_ivanovo.jpg" alt="" class="element__image">
-          <div class="element__container">
-            <p class="element__title">Ивановская область</p>
-            <a class="like" href="#"></a>
-          </div>
-        </li>
-        <li class="element">
-          <img src="./images/elements/element_tsarskoe-selo.jpg" alt="" class="element__image">
-          <div class="element__container">
-            <p class="element__title">Царское Село</p>
-            <a class="like" href="#"></a>
-          </div>
-        </li>
-        <li class="element">
-          <img src="./images/elements/element_irkutsk.jpg" alt="" class="element__image">
-          <div class="element__container">
-            <p class="element__title">Иркутск</p>
-            <a class="like" href="#"></a>
-          </div>
-        </li>
-        <li class="element">
-          <img src="./images/elements/element_dunilovo.jpg" alt="" class="element__image">
-          <div class="element__container">
-            <p class="element__title">Дунилово</p>
-            <a class="like" href="#"></a>
-          </div>
-        </li>
-      </ul>
-    </section>
-</main>
-    <footer class="footer">
-      <p class="footer__copyright">&copy; 2020. Mesto Russia</p>
-    </footer>
-    <section class="popup">
-      <div class="popup__body">
-        <div class="popup__container">
-          <button class="button-close"></button>
-          <h4 class="popup__title">Редактировать профиль</h4>
-          <form class="form-edit">
-            <fieldset class="form-edit__fields">
-              <input type="text" class="form-edit__item form-edit__item_profile-name"
-                name="profile-name" required>
-              <input type="text" class="form-edit__item form-edit__item_profile-status"
-                name="profile-status" required>
-            </fieldset>
-            <fieldset class="form-edit__handlers">
-              <input type="submit" class="form-edit__button">
-            </fieldset>
-          </form>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script src="./scripts/script.js"></script>
-</body>
+      </section>
+    </div>
+    <script src="./scripts/script.js"></script>
+  </body>
 </html>

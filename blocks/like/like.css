@@ -1,22 +1,21 @@
 .like {
-    margin: auto 0 auto auto;
-    padding: 0;
-    width: 20px;
-    height: 18px;
-    justify-self: flex-end;
-    background-image: url(../../images/like.svg);
-    background-position: center;
-    background-size: cover;
-  }
+  margin: auto 0 auto auto;
+  padding: 0;
+  width: 20px;
+  height: 18px;
+  justify-self: flex-end;
+  background-image: url(../../images/like.svg);
+  background-position: center;
+  background-size: cover;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
   
-  /* .like_active {
-    background-image: url(./like-active.svg);
-  } */
+.like:hover {
+  opacity: .5;
+}
   
-  .like:hover {
-    opacity: .5;
-  }
-  
-  .like:focus {
-    background-image: url(../../images/like-active.svg);
-  }
+.like:focus {
+  background-image: url(../../images/like-active.svg);
+}

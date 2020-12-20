@@ -3,7 +3,7 @@ function readProfileInfo() {
   let profileName = document.querySelector('.profile__name').textContent;
   let profileNameEdit = document.querySelector('.form-edit__item_profile-name');
   profileNameEdit.value = profileName;
-  
+
   let profileStatus = document.querySelector('.profile__status').textContent;
   let profileStatusEdit = document.querySelector('.form-edit__item_profile-status');
   profileStatusEdit.value = profileStatus;
@@ -11,7 +11,7 @@ function readProfileInfo() {
 
 // открытие popup-а  
 let page = document.querySelector('.page');
-let profileButtonEdit = page.querySelector('.button-edit');
+let profileButtonEdit = page.querySelector('.profile__button-edit');
 let popup = page.querySelector('.popup');
 
 function popupOpened() {
@@ -22,7 +22,7 @@ function popupOpened() {
 // закрытие popup-а 
 profileButtonEdit.addEventListener('click', popupOpened);
 
-let popupButtonClose = page.querySelector('.button-close');
+let popupButtonClose = page.querySelector('.popup__button-close');
 
 function popupClosed() {
   popup.classList.remove('popup_opened');
@@ -38,22 +38,22 @@ let formElement = document.querySelector('.form-edit');
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function handleFormSubmit (evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
                         // Так мы можем определить свою логику отправки.
                         // О том, как это делать, расскажем позже.
 
-    // Находим поля формы в DOM и Получите значение полей из свойства value
-    let nameInput = document.querySelector('.form-edit__item_profile-name').value;
-    let statusInput = document.querySelector('.form-edit__item_profile-status').value;
+  // Находим поля формы в DOM и Получите значение полей из свойства value
+  let nameInput = document.querySelector('.form-edit__item_profile-name').value;
+  let statusInput = document.querySelector('.form-edit__item_profile-status').value;
     
-    // Выберите элементы, куда должны быть вставлены значения полей
-    let nameOutput = document.querySelector('.profile__name');
-    let statusOutput = document.querySelector('.profile__status');
+  // Выберите элементы, куда должны быть вставлены значения полей
+  let nameOutput = document.querySelector('.profile__name');
+  let statusOutput = document.querySelector('.profile__status');
 
-    // Вставьте новые значения с помощью textContent
-    nameOutput.textContent = nameInput;
-    statusOutput.textContent = statusInput;
-    popupClosed();
+  // Вставьте новые значения с помощью textContent
+  nameOutput.textContent = nameInput;
+  statusOutput.textContent = statusInput;
+  popupClosed();
 }
 
 // Прикрепляем обработчик к форме:

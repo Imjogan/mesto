@@ -6,4 +6,9 @@
   background-size: cover;
   align-self: flex-start;
   justify-self: start;
-  }
+  transition: opacity .4s;
+}
+  
+.header__logo:hover {
+  opacity: .8;
+}
