@@ -1,61 +1,59 @@
-// перенос данных сайта в поля popup-а (name и status профиля)
+// Переменные
+
+let page = document.querySelector('.page');
+// находим поля формы для ввода данных страницы
+let profileNameEdit = document.querySelector('.form-edit__item_field_profile-name');
+let profileStatusEdit = document.querySelector('.form-edit__item_field_profile-status');
+// открытие popup-а  
+let profileButtonEdit = page.querySelector('.profile__button-edit');
+let popup = page.querySelector('.popup');
+// закрытие popup-а 
+let popupButtonClose = page.querySelector('.popup__button-close');
+// сохранение информации из форм на странице
+let formElement = document.querySelector('.form-edit');
+
+// Функции
+
+// функция переноса данных страницы в поля popup-а (name и status профиля)
 function readProfileInfo() {
   let profileName = document.querySelector('.profile__name').textContent;
-  let profileNameEdit = document.querySelector('.form-edit__item_profile-name');
   profileNameEdit.value = profileName;
-
   let profileStatus = document.querySelector('.profile__status').textContent;
-  let profileStatusEdit = document.querySelector('.form-edit__item_profile-status');
   profileStatusEdit.value = profileStatus;
 }
 
-// открытие popup-а  
-let page = document.querySelector('.page');
-let profileButtonEdit = page.querySelector('.profile__button-edit');
-let popup = page.querySelector('.popup');
-
-function popupOpened() {
+// функция открытия popup-а
+function openPopup() {
   popup.classList.add('popup_opened');
   readProfileInfo();
 }
 
-// закрытие popup-а 
-profileButtonEdit.addEventListener('click', popupOpened);
-
-let popupButtonClose = page.querySelector('.popup__button-close');
-
-function popupClosed() {
+// функция закрытия popup-а 
+function closePopup() {
   popup.classList.remove('popup_opened');
 }
 
-popupButtonClose.addEventListener('click', popupClosed);
-
-// сохранение информации из форм на странице
-
-// Находим форму в DOM
-let formElement = document.querySelector('.form-edit');
-
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
+// функция обработчика «отправки» формы
 function handleFormSubmit (evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-                        // Так мы можем определить свою логику отправки.
-                        // О том, как это делать, расскажем позже.
-
-  // Находим поля формы в DOM и Получите значение полей из свойства value
-  let nameInput = document.querySelector('.form-edit__item_profile-name').value;
-  let statusInput = document.querySelector('.form-edit__item_profile-status').value;
-    
-  // Выберите элементы, куда должны быть вставлены значения полей
+  evt.preventDefault(); // отмена обновления окна браузера
+  // находим поля формы в DOM и получаем значения полей из свойств value
+  let nameInput = document.querySelector('.form-edit__item_field_profile-name').value;
+  let statusInput = document.querySelector('.form-edit__item_field_profile-status').value;
+  // выберираем элементы, куда буудут вставлены значения полей
   let nameOutput = document.querySelector('.profile__name');
   let statusOutput = document.querySelector('.profile__status');
-
-  // Вставьте новые значения с помощью textContent
+  // подставляем новые значения с помощью textContent
   nameOutput.textContent = nameInput;
   statusOutput.textContent = statusInput;
-  popupClosed();
+  closePopup();
 }
 
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
+// Слушатели событий
+
+// нажатие на кнопку редактирования профиля
+profileButtonEdit.addEventListener('click', openPopup);
+// нажатие на кнопку закрытия редактирования профиля
+popupButtonClose.addEventListener('click', closePopup);
+// нажатие на кнопку "Сохранить" в форме редактирования профиля
 formElement.addEventListener('submit', handleFormSubmit); 
+

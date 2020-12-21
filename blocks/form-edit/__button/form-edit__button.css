@@ -1,5 +1,5 @@
 .form-edit__button {
-  height: 50px;
+  min-height: 50px;
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
@@ -19,7 +19,7 @@
 }
 
 .form-edit__button:focus {
-  outline-color: #fff6c5;
+  outline-color: #4992d6;
 }
 
 .form-edit__button[type="submit"] {
@@ -30,5 +30,6 @@
   .form-edit__button {
     font-size: 14px;
     line-height: 17px;
+    min-height: 46px;
   }
 }

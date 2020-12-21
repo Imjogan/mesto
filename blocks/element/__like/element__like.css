@@ -1,21 +1,22 @@
-.like {
+.element__like {
   margin: auto 0 auto auto;
   padding: 0;
   width: 20px;
   height: 18px;
   justify-self: flex-end;
-  background-image: url(../../images/like.svg);
+  background-image: url(../../../images/like.svg);
   background-position: center;
   background-size: cover;
   border: 0;
   background-color: transparent;
   cursor: pointer;
+  transition: opacity .4s;
 }
   
-.like:hover {
+.element__like:hover {
   opacity: .5;
 }
   
-.like:focus {
-  background-image: url(../../images/like-active.svg);
+.element__like:active {
+  background-image: url(../../../images/like-active.svg);
 }
