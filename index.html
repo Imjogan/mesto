@@ -24,56 +24,7 @@
           <button type="button" class="profile__button-add"></button>
         </section>
         <section>
-          <ul class="elements">
-            <li class="element">
-              <img src="./images/elements/element_samara.jpg" alt="Самара"
-                class="element__image">
-              <div class="element__container">
-                <h2 class="element__title">Самара</h2>
-                <button type="button" class="element__like"></button>
-              </div>
-            </li>
-            <li class="element">
-              <img src="./images/elements/element_moscow.jpg" alt="Москва"
-                class="element__image">
-              <div class="element__container">
-                <h2 class="element__title">Москва</h2>
-                <button type="button" class="element__like"></button>
-              </div>
-            </li>
-            <li class="element">
-              <img src="./images/elements/element_ivanovo.jpg" alt="Ивановская обл."
-                class="element__image">
-              <div class="element__container">
-                <h2 class="element__title">Ивановская область</h2>
-                <button type="button" class="element__like"></button>
-              </div>
-            </li>
-            <li class="element">
-              <img src="./images/elements/element_tsarskoe-selo.jpg" alt="Царское Село"
-                class="element__image">
-              <div class="element__container">
-                <h2 class="element__title">Царское Село</h2>
-                <button type="button" class="element__like"></button>
-              </div>
-            </li>
-            <li class="element">
-              <img src="./images/elements/element_irkutsk.jpg" alt="Иркутск"
-                class="element__image">
-              <div class="element__container">
-                <h2 class="element__title">Иркутск</h2>
-                <button type="button" class="element__like"></button>
-              </div>
-            </li>
-            <li class="element">
-              <img src="./images/elements/element_dunilovo.jpg" alt="Дунилово"
-                class="element__image">
-              <div class="element__container">
-                <h2 class="element__title">Дунилово</h2>
-                <button type="button" class="element__like"></button>
-              </div>
-            </li>
-          </ul>
+          <ul class="elements"></ul>
         </section>
       </main>
       <footer class="footer">
@@ -95,6 +46,17 @@
         </div>
       </section>
     </div>
+    <!-- template для карточек -->
+    <template id="card-template">
+      <li class="element">
+        <button type="button" class="element__trash-button"></button>
+        <img src="" alt="" class="element__image">
+        <div class="element__container">
+          <h2 class="element__title"></h2>
+          <button type="button" class="element__like"></button>
+        </div>
+      </li>
+    </template>
     <script src="./scripts/script.js"></script>
   </body>
 </html>
