@@ -7,10 +7,15 @@
   position: relative;
   border-radius: 10px;
   box-sizing: border-box;
+  background-image: none;
 }
 
 @media screen and (max-width: 440px) {
   .popup__container {
     padding: 25px 22px;
   }
+}
+
+.popup__container_closed {
+  display: none;
 }
