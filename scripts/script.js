@@ -37,6 +37,8 @@ const profileButtonEdit = root.querySelector('.profile__button-edit');
 const profileButtonAdd = root.querySelector('.profile__button-add');
 // попап
 const popup = root.querySelector('.popup');
+// попал увеличения изображения
+const popupImageZoom = root.querySelector('#popupImageZoom');
 // закрытие popup-ов
 const popupButtonClose = root.querySelector('.popup__button-close');
 const popupZoomClose = root.querySelector('.popup__button-close_purpose_zoom');
@@ -45,8 +47,6 @@ const popupContainer = root.querySelector('.popup__container');
 const popupTitle = root.querySelector('.popup__title');
 const formElement = root.querySelector('.form-edit');
 const popupButtonSubmit = root.querySelector('.form-edit__button');
-const profileNameEdit = root.querySelector('.form-edit__item_field_profile-name');
-const profileStatusEdit = root.querySelector('.form-edit__item_field_profile-status');
 // попал УИК
 const popupZoomImage = root.querySelector('.popup__zoom-image');
 const popupImage = root.querySelector('.popup__image');
@@ -77,7 +77,7 @@ const creationCard = element => {
   cardImage.alt = element.name;
   // ставим лайк
   cardLike.addEventListener('click', function (evt) {
-  evt.target.classList.toggle('element__like_active');
+    evt.target.classList.toggle('element__like_active');
   });
   // удаляем карточку
   cardTrash.addEventListener('click', function (evt) {
@@ -118,8 +118,8 @@ function closePopup(popupElement) {
 // пресет добавления карточки
 function addPopupPreset() {
   formElement.reset();
-  profileNameEdit.setAttribute('placeholder', 'Название');
-  profileStatusEdit.setAttribute('placeholder', 'Ссылка на картинку');
+  firstFieldFormEdit.setAttribute('placeholder', 'Название');
+  secondFieldFormEdit.setAttribute('placeholder', 'Ссылка на картинку');
   popupTitle.textContent = 'Новое место';
   popupButtonSubmit.textContent = 'Создать';
 }
@@ -128,17 +128,21 @@ function addPopupPreset() {
 function editPopupPreset() {
   popupTitle.textContent = 'Редактировать профиль';
   popupButtonSubmit.textContent = 'Сохранить';
-  profileNameEdit.removeAttribute('placeholder');
-  profileStatusEdit.removeAttribute('placeholder');
-  profileNameEdit.value = profileName.textContent;
-  profileStatusEdit.value = profileStatus.textContent;
+  firstFieldFormEdit.removeAttribute('placeholder');
+  secondFieldFormEdit.removeAttribute('placeholder');
+  firstFieldFormEdit.value = profileName.textContent;
+  secondFieldFormEdit.value = profileStatus.textContent;
 }
+
 
 function handleFormSubmit (evt) {
   if(popupTitle.textContent === 'Новое место') {
     evt.preventDefault(); // отмена обновления окна браузера
     // заносим данные в объект
-    const newCard = {name: firstFieldFormEdit.value, link: secondFieldFormEdit.value};
+    const newCard = {
+                      name: firstFieldFormEdit.value,
+                      link: secondFieldFormEdit.value
+                    };
     renderCard(newCard);
     closePopup(popup);
   }
