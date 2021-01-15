@@ -27,6 +27,7 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ]; 
+
 // находим селекторы на странице
 const root = document.querySelector('.root');
 const elements = root.querySelector('.elements');
@@ -53,35 +54,56 @@ const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
 // нашли template карточек на странице
 const cardTemplate = root.querySelector('#card-template').content;
 
+
+let profileName = root.querySelector('.profile__name');
+let profileStatus = root.querySelector('.profile__status');
+let firstFieldFormEdit = root.querySelector('.form-edit__item_field_profile-name');
+let secondFieldFormEdit = root.querySelector('.form-edit__item_field_profile-status');
+
+
 // Функции
 
-const renderCards = element => {
+// создаем карточку и возвращаем ее
+const creationCard = element => {
   // делаем копию содержимого template-а карточек
   const cardElement = cardTemplate.cloneNode(true);
+  const cardImage = cardElement.querySelector('.element__image');
+  const cardTitle = cardElement.querySelector('.element__title');
+  const cardLike = cardElement.querySelector('.element__like');
+  const cardTrash = cardElement.querySelector('.element__trash-button');
   // берем изображение и имя из объекта
-  cardElement.querySelector('.element__image').src = element.link;
-  cardElement.querySelector('.element__title').textContent = element.name;
-  cardElement.querySelector('.element__image').alt = element.name;
+  cardImage.src = element.link;
+  cardTitle.textContent = element.name;
+  cardImage.alt = element.name;
   // ставим лайк
-  cardElement.querySelector('.element__like').addEventListener('click', function (evt) {
+  cardLike.addEventListener('click', function (evt) {
   evt.target.classList.toggle('element__like_active');
-});
-// удаляем карточку
-cardElement.querySelector('.element__trash-button').addEventListener('click', function (evt) {
-  evt.target.closest('.element').remove();
-});
-// открытие попапа УИК
-cardElement.querySelector('.element__image').addEventListener('click', function (evt) {
-  popupContainer.classList.add('popup__container_closed');
-  popupZoomImage.classList.remove('popup__zoom-image_closed');
-  popupImage.src = evt.target.src;
-  popupImage.alt = evt.target.alt;
-  popupTitleZoomImage.textContent = evt.target.alt;
-  openPopup(popup);
-});
-  // добавляем на страницу
-  elements.prepend(cardElement);
+  });
+  // удаляем карточку
+  cardTrash.addEventListener('click', function (evt) {
+    evt.target.closest('.element').remove();
+  });
+  // открытие попапа УИК
+  cardImage.addEventListener('click', function (evt) {
+    popupContainer.classList.add('popup__container_closed');
+    popupZoomImage.classList.remove('popup__zoom-image_closed');
+    popupImage.src = evt.target.src;
+    popupImage.alt = evt.target.alt;
+    popupTitleZoomImage.textContent = evt.target.alt;
+    openPopup(popup);
+  });
+  // возвращаем карточку
+  return cardElement;
 }
+
+// добавляем на страницу
+const renderCard = cardElement => {
+  elements.prepend(creationCard(cardElement));
+}
+
+// выводим карточки
+initialCards.forEach(renderCard);
+
 
 // функция открытия popup-а
 function openPopup(popupElement) {
@@ -108,34 +130,23 @@ function editPopupPreset() {
   popupButtonSubmit.textContent = 'Сохранить';
   profileNameEdit.removeAttribute('placeholder');
   profileStatusEdit.removeAttribute('placeholder');
-  const profileName = root.querySelector('.profile__name').textContent;
-  profileNameEdit.value = profileName;
-  const profileStatus = root.querySelector('.profile__status').textContent;
-  profileStatusEdit.value = profileStatus;
+  profileNameEdit.value = profileName.textContent;
+  profileStatusEdit.value = profileStatus.textContent;
 }
 
 function handleFormSubmit (evt) {
   if(popupTitle.textContent === 'Новое место') {
     evt.preventDefault(); // отмена обновления окна браузера
-    // находим поля формы в DOM и получаем значения полей из свойств value
-    const newCardName = root.querySelector('.form-edit__item_field_profile-name').value;
-    const newCardLink = root.querySelector('.form-edit__item_field_profile-status').value;
     // заносим данные в объект
-    const newCard = {name: newCardName, link: newCardLink};
-    renderCards(newCard);
+    const newCard = {name: firstFieldFormEdit.value, link: secondFieldFormEdit.value};
+    renderCard(newCard);
     closePopup(popup);
   }
   else if(popupTitle.textContent === 'Редактировать профиль') {
     evt.preventDefault(); // отмена обновления окна браузера
-    // находим поля формы в DOM и получаем значения полей из свойств value
-    const nameInput = root.querySelector('.form-edit__item_field_profile-name').value;
-    const statusInput = root.querySelector('.form-edit__item_field_profile-status').value;
-    // выберираем элементы, куда будут вставлены значения полей
-    const nameOutput = root.querySelector('.profile__name');
-    const statusOutput = root.querySelector('.profile__status');
     // подставляем новые значения
-    nameOutput.textContent = nameInput;
-    statusOutput.textContent = statusInput;
+    profileName.textContent = firstFieldFormEdit.value;
+    profileStatus.textContent = secondFieldFormEdit.value;
     closePopup(popup);
   }
 }
@@ -145,9 +156,6 @@ function openClosePopupImage() {
   popupContainer.classList.remove('popup__container_closed');
   popupZoomImage.classList.add('popup__zoom-image_closed');
 }
-
-// выводим карточки
-initialCards.forEach(renderCards);
 
 // Слушатели событий
 
