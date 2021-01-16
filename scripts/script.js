@@ -28,38 +28,57 @@ const initialCards = [
   }
 ]; 
 
-// находим селекторы на странице
+// перевернем массив
+const cardsReverse = initialCards.reverse();
+// селекторы страницы
 const root = document.querySelector('.root');
 const elements = root.querySelector('.elements');
-// селектор кнопки редактирования профиля - для открытие popup-а РПиДК
-const profileButtonEdit = root.querySelector('.profile__button-edit');
-// селектор кнопки добавления карточки - для открытие popup-а УИК
-const profileButtonAdd = root.querySelector('.profile__button-add');
-// попап
-const popup = root.querySelector('.popup');
-// попал увеличения изображения
-const popupImageZoom = root.querySelector('#popupImageZoom');
-// закрытие popup-ов
-const popupButtonClose = root.querySelector('.popup__button-close');
-const popupZoomClose = root.querySelector('.popup__button-close_purpose_zoom');
-// попал РПиДК
-const popupContainer = root.querySelector('.popup__container');
-const popupTitle = root.querySelector('.popup__title');
-const formElement = root.querySelector('.form-edit');
-const popupButtonSubmit = root.querySelector('.form-edit__button');
-// попал УИК
-const popupZoomImage = root.querySelector('.popup__zoom-image');
-const popupImage = root.querySelector('.popup__image');
-const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
 // нашли template карточек на странице
 const cardTemplate = root.querySelector('#card-template').content;
 
-
+// --------------------- попап редактирования профиля ---------------------
+// селектор кнопки редактирования профиля
+const profileButtonEdit = root.querySelector('.profile__button-edit');
+// сам попап
+const popupProfileEdit = root.querySelector('.popup_section_profile-edit');
+// закрытие попапа
+const ButtonClosePopupProfileEdit = root.querySelector('.popup__button-close_section_profile-edit');
+// форма попапа
+const formElementPopupProfileEdit = root.querySelector('.form_section_profile-edit');
+// sabmit попапа
+const ButtonSubmitPopupProfileEdit = root.querySelector('.form__button_section_profile-edit');
+// селекторы формы и страницы для редактирования
 let profileName = root.querySelector('.profile__name');
 let profileStatus = root.querySelector('.profile__status');
-let firstFieldFormEdit = root.querySelector('.form-edit__item_field_profile-name');
-let secondFieldFormEdit = root.querySelector('.form-edit__item_field_profile-status');
+let firstFieldFormEdit = root.querySelector('.form__item_field_profile-name');
+let secondFieldFormEdit = root.querySelector('.form__item_field_profile-status');
+// ------------------------------------------------------------------------
 
+// ---------------------- попап добавления карточки -----------------------
+// селектор кнопки добавления карточки
+const profileButtonAdd = root.querySelector('.profile__button-add');
+// сам попап
+const popupCardAdd = root.querySelector('.popup_section_card-add');
+// закрытие попапа
+const ButtonClosePopupCardAdd = root.querySelector('.popup__button-close_section_card-add');
+// форма попапа
+const formElementPopupCardAdd = root.querySelector('.form_section_card-add');
+// sabmit попапа
+const ButtonSubmitPopupCardAdd = root.querySelector('.form__button_section_card-add');
+// селекторы формы для добавления 
+let firstFieldFormAdd = root.querySelector('.form__item_field_card-name');
+let secondFieldFormAdd = root.querySelector('.form__item_field_card-link');
+// ------------------------------------------------------------------------
+
+// -------------------- попап увеличения изображения ----------------------
+// сам попап
+const popupImageZoom = root.querySelector('.popup_section_image-zoom');
+// закрытие попапа
+const ButtonClosePopupImageZoom = root.querySelector('.popup__button-close_section_image-zoom');
+// селекторы формы для увеличения изображения
+const popupImage = root.querySelector('.popup__image');
+const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
+// ------------------------------------------------------------------------
 
 // Функции
 
@@ -85,25 +104,22 @@ const creationCard = element => {
   });
   // открытие попапа УИК
   cardImage.addEventListener('click', function (evt) {
-    popupContainer.classList.add('popup__container_closed');
-    popupZoomImage.classList.remove('popup__zoom-image_closed');
     popupImage.src = evt.target.src;
     popupImage.alt = evt.target.alt;
     popupTitleZoomImage.textContent = evt.target.alt;
-    openPopup(popup);
+    openPopup(popupImageZoom);
   });
   // возвращаем карточку
   return cardElement;
 }
 
-// добавляем на страницу
+// функция добавления на страницу
 const renderCard = cardElement => {
   elements.prepend(creationCard(cardElement));
 }
 
 // выводим карточки
-initialCards.forEach(renderCard);
-
+cardsReverse.forEach(renderCard);
 
 // функция открытия popup-а
 function openPopup(popupElement) {
@@ -115,77 +131,71 @@ function closePopup(popupElement) {
   popupElement.classList.remove('popup_opened');
 }
 
-// пресет добавления карточки
-function addPopupPreset() {
-  formElement.reset();
-  firstFieldFormEdit.setAttribute('placeholder', 'Название');
-  secondFieldFormEdit.setAttribute('placeholder', 'Ссылка на картинку');
-  popupTitle.textContent = 'Новое место';
-  popupButtonSubmit.textContent = 'Создать';
+// функция отправки формы добавления карточки
+function handleAddFormSubmit (evt) {
+  evt.preventDefault(); // отмена обновления окна браузера
+  // заносим данные в объект
+  const newCard = {
+                    name: firstFieldFormAdd.value,
+                    link: secondFieldFormAdd.value
+                  };
+  // добавляем на страницу
+  renderCard(newCard);
+  closePopup(popupCardAdd);
 }
 
-// пресет редактирования профиля
-function editPopupPreset() {
-  popupTitle.textContent = 'Редактировать профиль';
-  popupButtonSubmit.textContent = 'Сохранить';
-  firstFieldFormEdit.removeAttribute('placeholder');
-  secondFieldFormEdit.removeAttribute('placeholder');
+// функция отправки формы редактирования профиля
+function handleEditFormSubmit (evt) {
+  evt.preventDefault(); // отмена обновления окна браузера
+  // подставляем новые значения
+  profileName.textContent = firstFieldFormEdit.value;
+  profileStatus.textContent = secondFieldFormEdit.value;
+  closePopup(popupProfileEdit);
+}
+
+// пресет окна редактирования профиля
+function presetPopupProfileEdit() {
   firstFieldFormEdit.value = profileName.textContent;
   secondFieldFormEdit.value = profileStatus.textContent;
-}
-
-
-function handleFormSubmit (evt) {
-  if(popupTitle.textContent === 'Новое место') {
-    evt.preventDefault(); // отмена обновления окна браузера
-    // заносим данные в объект
-    const newCard = {
-                      name: firstFieldFormEdit.value,
-                      link: secondFieldFormEdit.value
-                    };
-    renderCard(newCard);
-    closePopup(popup);
-  }
-  else if(popupTitle.textContent === 'Редактировать профиль') {
-    evt.preventDefault(); // отмена обновления окна браузера
-    // подставляем новые значения
-    profileName.textContent = firstFieldFormEdit.value;
-    profileStatus.textContent = secondFieldFormEdit.value;
-    closePopup(popup);
-  }
-}
-
-// пресет открытия/закрытия popap-а УИК
-function openClosePopupImage() {
-  popupContainer.classList.remove('popup__container_closed');
-  popupZoomImage.classList.add('popup__zoom-image_closed');
-}
+};
 
 // Слушатели событий
 
+// -------------------- для редактирования профиля ----------------------
 // нажатие на кнопку редактирования профиля
 profileButtonEdit.addEventListener('click', function() {
-  openClosePopupImage();
-  openPopup(popup);
-  editPopupPreset();
+  presetPopupProfileEdit();
+  openPopup(popupProfileEdit);
 });
 
-// нажатие на кнопку закрытия попапа РПиДК
-popupButtonClose.addEventListener('click', function() {
-  closePopup(popup);
-});
-
-// нажатие на кнопку закрытия попапа УИК
-popupZoomClose.addEventListener('click', function() {
-  closePopup(popup);
-});
-
-// нажатие на добавление карточки
-profileButtonAdd.addEventListener('click', function() {
-  openClosePopupImage();
-  openPopup(popup);
-  addPopupPreset();
+// нажатие на кнопку закрытия попапа
+ButtonClosePopupProfileEdit.addEventListener('click', function() {
+  closePopup(popupProfileEdit);
 });
 
 // отправка формы
-formElement.addEventListener('submit', handleFormSubmit);
+formElementPopupProfileEdit.addEventListener('submit', handleEditFormSubmit);
+// ----------------------------------------------------------------------
+
+// --------------------- для добавления карточки ------------------------
+// нажатие на кнопку добавление карточки
+profileButtonAdd.addEventListener('click', function() {
+  formElementPopupCardAdd.reset();
+  openPopup(popupCardAdd);
+});
+
+// нажатие на кнопку закрытия попапа
+ButtonClosePopupCardAdd.addEventListener('click', function() {
+  closePopup(popupCardAdd);
+});
+
+// отправка формы
+formElementPopupCardAdd.addEventListener('submit', handleAddFormSubmit);
+// ----------------------------------------------------------------------
+
+// --------------- для увеличения изображения карточки ------------------
+// нажатие на кнопку закрытия попапа
+ButtonClosePopupImageZoom.addEventListener('click', function() {
+  closePopup(popupImageZoom);
+});
+// ----------------------------------------------------------------------

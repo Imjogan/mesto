@@ -30,39 +30,47 @@
       <footer class="footer">
         <p class="footer__copyright">&copy; 2020. Mesto Russia</p>
       </footer>
-      <!-- Popup -->
-      <section class="popup">
-        <!-- Popup редактирования профиля и добавления карточки (РПиДК) -->
+      <!-- Popup's -->
+      <!-- Popup редактирования профиля -->
+      <section class="popup popup_section_profile-edit">
         <div class="popup__container">
-          <button type="button" class="popup__button-close"></button>
+          <button type="button" class="popup__button-close popup__button-close_section_profile-edit"></button>
           <h2 class="popup__title">Редактировать профиль</h2>
-          <form name="form-profile-edit" class="form-edit">
-            <fieldset class="form-edit__fields">
-              <input type="text" class="form-edit__item form-edit__item_field_profile-name"
+          <form name="form-profile-edit" class="form form_section_profile-edit">
+            <fieldset class="form__fields">
+              <input type="text" class="form__item form__item_field_profile-name"
                 name="profile-name" required>
-              <input type="text" class="form-edit__item form-edit__item_field_profile-status"
+              <input type="text" class="form__item form__item_field_profile-status"
                 name="profile-status" required>
             </fieldset>
-            <button type="submit" class="form-edit__button">Сохранить</button>
+            <button type="submit" class="form__button form__button_section_profile-edit">Сохранить</button>
           </form>
         </div>
-        <!-- popup увеличенного изображения карточки (УИК) -->
-
       </section>
-
-
-
+      <!-- Popup добавления карточки -->
+      <section class="popup popup_section_card-add">
+        <div class="popup__container">
+          <button type="button" class="popup__button-close popup__button-close_section_card-add"></button>
+          <h2 class="popup__title">Новое место</h2>
+          <form name="form-card-add" class="form form_section_card-add">
+            <fieldset class="form__fields">
+              <input type="text" placeholder="Название" class="form__item form__item_field_card-name"
+                name="profile-name" required>
+              <input type="text" placeholder="Ссылка на картинку" class="form__item form__item_field_card-link"
+                name="profile-status" required>
+            </fieldset>
+            <button type="submit" class="form__button form__button_section_card-add">Добавить</button>
+          </form>
+        </div>
+      </section>
       <!-- Popup увеличения изображений -->
-      <section id="popupImageZoom" class="popup">
+      <section class="popup popup_section_image-zoom">
         <div class="popup__zoom-image">
-          <button type="button" class="popup__button-close popup__button-close_purpose_zoom"></button>
+          <button type="button" class="popup__button-close popup__button-close_section_image-zoom"></button>
           <img src="#" alt="alt" class="popup__image">
           <h2 class="popup__title-zoom-image"></h2>
         </div>
       </section>
-
-
-
     </div>
     <!-- template для карточек -->
     <template id="card-template">
