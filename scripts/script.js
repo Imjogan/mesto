@@ -95,23 +95,38 @@ const creationCard = element => {
   cardTitle.textContent = element.name;
   cardImage.alt = element.name;
   // ставим лайк
-  cardLike.addEventListener('click', function (evt) {
+  cardLiked(cardLike);
+  // удаляем карточку
+  cardRemoved(cardTrash);
+  // открытие попапа УИК
+  imagePopupZoomed(cardImage);
+  // возвращаем карточку
+  return cardElement;
+}
+
+// функция постановки лайка
+const cardLiked = cardLike => {
+  cardLike.addEventListener('click', evt => {
     evt.target.classList.toggle('element__like_active');
   });
-  // удаляем карточку
-  cardTrash.addEventListener('click', function (evt) {
+};
+
+// функция удаления карточки
+const cardRemoved = cardTrash => {
+  cardTrash.addEventListener('click', evt => {
     evt.target.closest('.element').remove();
   });
-  // открытие попапа УИК
-  cardImage.addEventListener('click', function (evt) {
+};
+
+// функция увеличения изображения
+const imagePopupZoomed = cardImage => {
+  cardImage.addEventListener('click', evt => {
     popupImage.src = evt.target.src;
     popupImage.alt = evt.target.alt;
     popupTitleZoomImage.textContent = evt.target.alt;
     openPopup(popupImageZoom);
   });
-  // возвращаем карточку
-  return cardElement;
-}
+};
 
 // функция добавления на страницу
 const renderCard = cardElement => {
@@ -122,17 +137,17 @@ const renderCard = cardElement => {
 cardsReverse.forEach(renderCard);
 
 // функция открытия popup-а
-function openPopup(popupElement) {
+const openPopup = popupElement => {
   popupElement.classList.add('popup_opened');
 } 
 
 // функция закрытия popup-а
-function closePopup(popupElement) {
+const closePopup = popupElement => {
   popupElement.classList.remove('popup_opened');
 }
 
 // функция отправки формы добавления карточки
-function handleAddFormSubmit (evt) {
+const handleAddFormSubmit = evt => {
   evt.preventDefault(); // отмена обновления окна браузера
   // заносим данные в объект
   const newCard = {
@@ -145,7 +160,7 @@ function handleAddFormSubmit (evt) {
 }
 
 // функция отправки формы редактирования профиля
-function handleEditFormSubmit (evt) {
+const handleEditFormSubmit = evt => {
   evt.preventDefault(); // отмена обновления окна браузера
   // подставляем новые значения
   profileName.textContent = firstFieldFormEdit.value;
