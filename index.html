@@ -36,12 +36,14 @@
         <div class="popup__container">
           <button type="button" class="popup__button-close popup__button-close_section_profile-edit"></button>
           <h2 class="popup__title">Редактировать профиль</h2>
-          <form name="form-profile-edit" class="form form_section_profile-edit">
+          <form novalidate name="form-profile-edit" class="form form_section_profile-edit">
             <fieldset class="form__fields">
-              <input type="text" class="form__item form__item_field_profile-name"
-                name="profile-name" required>
-              <input type="text" class="form__item form__item_field_profile-status"
-                name="profile-status" required>
+              <input type="text" class="form__input form__input_field_profile-name"
+                name="profile-name" required minlength="2" maxlength="40" id="profile-name-input">
+              <span class="form__input-error profile-name-input-error"></span>
+              <input type="text" class="form__input form__input_field_profile-status"
+                name="profile-status" required minlength="2" maxlength="200" id="profile-status-input">
+              <span class="form__input-error profile-status-input-error"></span>
             </fieldset>
             <button type="submit" class="form__button form__button_section_profile-edit">Сохранить</button>
           </form>
@@ -52,12 +54,14 @@
         <div class="popup__container">
           <button type="button" class="popup__button-close popup__button-close_section_card-add"></button>
           <h2 class="popup__title">Новое место</h2>
-          <form name="form-card-add" class="form form_section_card-add">
+          <form novalidate name="form-card-add" class="form form_section_card-add">
             <fieldset class="form__fields">
-              <input type="text" placeholder="Название" class="form__item form__item_field_card-name"
-                name="profile-name" required>
-              <input type="text" placeholder="Ссылка на картинку" class="form__item form__item_field_card-link"
-                name="profile-status" required>
+              <input type="text" placeholder="Название" class="form__input form__input_field_card-name"
+                name="profile-name" required minlength="2" maxlength="30" id="card-name-input">
+              <span class="form__input-error card-name-input-error"></span>
+              <input type="url" placeholder="Ссылка на картинку" class="form__input form__input_field_card-link"
+                name="profile-status" required id="card-link-input">
+              <span class="form__input-error card-link-input-error"></span>
             </fieldset>
             <button type="submit" class="form__button form__button_section_card-add">Добавить</button>
           </form>

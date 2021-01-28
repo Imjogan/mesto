@@ -23,7 +23,7 @@
 }
 
 .form__button[type="submit"] {
-  background-color: #000;
+  background-color: rgb(97, 97, 97);
 }
 
 @media screen and (max-width: 440px) {

@@ -35,6 +35,8 @@ const root = document.querySelector('.root');
 const elements = root.querySelector('.elements');
 // нашли template карточек на странице
 const cardTemplate = root.querySelector('#card-template').content;
+// создали массив popup-ов
+const popupList = Array.from(document.querySelectorAll('.popup'));
 
 // --------------------- попап редактирования профиля ---------------------
 // селектор кнопки редактирования профиля
@@ -50,8 +52,8 @@ const ButtonSubmitPopupProfileEdit = root.querySelector('.form__button_section_p
 // селекторы формы и страницы для редактирования
 let profileName = root.querySelector('.profile__name');
 let profileStatus = root.querySelector('.profile__status');
-let firstFieldFormEdit = root.querySelector('.form__item_field_profile-name');
-let secondFieldFormEdit = root.querySelector('.form__item_field_profile-status');
+let firstFieldFormEdit = root.querySelector('.form__input_field_profile-name');
+let secondFieldFormEdit = root.querySelector('.form__input_field_profile-status');
 // ------------------------------------------------------------------------
 
 // ---------------------- попап добавления карточки -----------------------
@@ -66,8 +68,8 @@ const formElementPopupCardAdd = root.querySelector('.form_section_card-add');
 // sabmit попапа
 const ButtonSubmitPopupCardAdd = root.querySelector('.form__button_section_card-add');
 // селекторы формы для добавления 
-let firstFieldFormAdd = root.querySelector('.form__item_field_card-name');
-let secondFieldFormAdd = root.querySelector('.form__item_field_card-link');
+let firstFieldFormAdd = root.querySelector('.form__input_field_card-name');
+let secondFieldFormAdd = root.querySelector('.form__input_field_card-link');
 // ------------------------------------------------------------------------
 
 // -------------------- попап увеличения изображения ----------------------
@@ -136,14 +138,34 @@ const renderCard = cardElement => {
 // выводим карточки
 cardsReverse.forEach(renderCard);
 
+// закрытие на оверлей
+const closePopupOverlay = () => {
+  popupList.forEach((popupElement) => {
+    popupElement.addEventListener('click', function (evt) {
+      if (evt.target === popupElement) {
+        closePopup(popupElement);
+      }
+    });
+  });
+};
+
+// закрытие попапа на Escape
+const closePopupEscape = evt => {
+  if(evt.key === "Escape") {
+    closePopup(document.querySelector('.popup_opened'));
+  }
+}
+
 // функция открытия popup-а
 const openPopup = popupElement => {
   popupElement.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEscape);
 } 
 
 // функция закрытия popup-а
 const closePopup = popupElement => {
   popupElement.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEscape);
 }
 
 // функция отправки формы добавления карточки
@@ -174,6 +196,91 @@ function presetPopupProfileEdit() {
   secondFieldFormEdit.value = profileStatus.textContent;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+// const showInputError = (formElement, inputElement, errorMessage) => {
+//   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+//   inputElement.classList.add('form__input_type_error');
+//   errorElement.textContent = errorMessage;
+//   errorElement.classList.add('form__input-error_active');
+// };
+
+// const hideInputError = (formElement, inputElement) => {
+//   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+//   inputElement.classList.remove('form__input_type_error');
+//   errorElement.classList.remove('form__input-error_active');
+//   errorElement.textContent = '';
+// };
+
+// const checkInputValidity = (formElement, inputElement) => {
+//   if (!inputElement.validity.valid) {
+//     showInputError(formElement, inputElement, inputElement.validationMessage);
+//   } else {
+//     hideInputError(formElement, inputElement);
+//   }
+// };
+
+// const setEventListeners = (formElement) => {
+//   const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+//   const buttonElement = formElement.querySelector('.form__button');
+//   toggleButtonState(inputList, buttonElement);
+//   inputList.forEach((inputElement) => {
+//     inputElement.addEventListener('input', function () {
+//       checkInputValidity(formElement, inputElement);
+//       toggleButtonState(inputList, buttonElement);
+//     });
+//   });
+// };
+
+// const enableValidation = () => {
+//   const formList = Array.from(document.querySelectorAll('.form'));
+//   formList.forEach((formElement) => {
+//     formElement.addEventListener('submit', function (evt) {
+//       evt.preventDefault();
+//     });
+//     const fieldsetList = Array.from(formElement.querySelectorAll('.form__fields'));
+//     fieldsetList.forEach((fieldSet) => {
+//       setEventListeners(fieldSet);
+//     })
+//   });
+// };
+
+// const hasInvalidInput = (inputList) => {
+//   return inputList.some((inputElement) => {
+//     return !inputElement.validity.valid;
+//   })
+// }
+
+// const toggleButtonState = (inputList, buttonElement) => {
+// if (hasInvalidInput(inputList)) {
+//     buttonElement.classList.add('form__button_inactive');
+//   } else {
+//     buttonElement.classList.remove('form__button_inactive');
+//   }
+// }
+
+// enableValidation();
+
+
+
+
+
+
+
+
+
+// вызываем функцию для закрытия на overlay
+closePopupOverlay();
+
 // Слушатели событий
 
 // -------------------- для редактирования профиля ----------------------
@@ -187,6 +294,9 @@ profileButtonEdit.addEventListener('click', function() {
 ButtonClosePopupProfileEdit.addEventListener('click', function() {
   closePopup(popupProfileEdit);
 });
+
+// закрытие попапа на Escape
+
 
 // отправка формы
 formElementPopupProfileEdit.addEventListener('submit', handleEditFormSubmit);
