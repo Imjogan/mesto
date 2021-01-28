@@ -12,7 +12,7 @@
 }
 
 .form__input:last-of-type {
-  margin: 0;
+  margin-bottom: 48px;
 }
 
 .form__input:focus {
@@ -44,4 +44,10 @@
   font-family: 'Inter', Arial, sans-serif;
   line-height: 20px;
   color: #bcbcc4;
+}
+
+@media screen and (max-width: 440px) {
+  .form__input {
+    margin-bottom: 45px;
+  }
 }
