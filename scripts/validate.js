@@ -1,16 +1,27 @@
 // Валидация форм
 
+// конфигурация для валидации
+const validationConfig = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__button',
+  inactiveButtonClass: 'form__button_disabled',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__error_visible',
+  fieldsSelector: '.form__fields'
+};
+
 // функция отобржения ошибки (форма, поле ввода, сообщение ошибки)
 const showInputError = (formElement, inputElement, errorMessage) => {
   // находим у данной формы селектор сообщения ошибки, принадлежащий полю ввода
   // и заносим данные в константу
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   // добавляем полю ввода селектор ошибки (красная граница)
-  inputElement.classList.add('form__input_type_error');
+  inputElement.classList.add(validationConfig.inputErrorClass);
   // заносим в тест ошибки входное сообщение ошибки
   errorElement.textContent = errorMessage;
   // делаем текст ошибки видимым
-  errorElement.classList.add('form__error_visible');
+  errorElement.classList.add(validationConfig.errorClass);
 };
 
 // функция скрытия ошибки (форма, поле ввода)
@@ -19,9 +30,9 @@ const hideInputError = (formElement, inputElement) => {
   // и заносим данные в константу
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   // удаляем селектор ошибки поля ввода (красная граница)
-  inputElement.classList.remove('form__input_type_error');
+  inputElement.classList.remove(validationConfig.inputErrorClass);
   // скрываем текст ошибки
-  errorElement.classList.remove('form__error_visible');
+  errorElement.classList.remove(validationConfig.errorClass);
   // очищаем текст ошибки
   errorElement.textContent = '';
 };
@@ -40,9 +51,9 @@ const checkInputValidity = (formElement, inputElement) => {
 // функция добавления слушателей к полям (форма)
 const setEventListeners = (formElement) => {
   // создаем массив и заполяем его полями воода данной формы
-  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
   // находим кнопку sabmit-а
-  const buttonElement = formElement.querySelector('.form__button');
+  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
   // вызываем функцию переключения состояния кнопки sabmit (поля формы, кнопка sabmit формы)
   toggleButtonState(inputList, buttonElement);
   // проходимся по массиву и к каждому полю ввода применяем функцию
@@ -59,17 +70,17 @@ const setEventListeners = (formElement) => {
 
 // функция, ответственная за включение валидации форм
 const enableValidation = () => {
-  // заполняем массив формами на странице
-  const formList = Array.from(document.querySelectorAll('.form'));
-  // к каждой форме применяем функцию
-  formList.forEach((formElement) => {
+    // заполняем массив формами на странице
+    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
+    // к каждой форме применяем функцию
+    formList.forEach((formElement) => {
     // добавляем слушатель на отправку формы
     formElement.addEventListener('submit', function (evt) {
       // запрещаем браузеру обновлять страницу
       evt.preventDefault();
     });
     // заполняем массив полями данной формы
-    const fieldsetList = Array.from(formElement.querySelectorAll('.form__fields'));
+    const fieldsetList = Array.from(formElement.querySelectorAll(validationConfig.fieldsSelector));
     // к каждому полю применяем функцию
     fieldsetList.forEach((fieldSet) => {
       // вызываем функцию добавления слушателей
@@ -85,25 +96,16 @@ const hasInvalidInput = (inputList) => {
     // проверяем условие, есть ли хотя бы один элемент, не прошедший валидацию
     return !inputElement.validity.valid;
   })
-}
+};
 
 // функция переключения состояния кпонки sabmit (массив полей, кнопка sabmit)
 const toggleButtonState = (inputList, buttonElement) => {
   // если хотя бы одно поле ввода не прошло проверку на валидность
-if (hasInvalidInput(inputList)) {
-  // делаем кнопку неактивной
-    buttonElement.classList.add('form__button_disabled');
+  if (hasInvalidInput(inputList)) {
+    // делаем кнопку неактивной
+    buttonElement.classList.add(validationConfig.inactiveButtonClass);
     // иначе - делаем активной
   } else {
-    buttonElement.classList.remove('form__button_disabled');
+    buttonElement.classList.remove(validationConfig.inactiveButtonClass);
   }
-}
-
-// enableValidation({
-//   formSelector: '.form',
-//   inputSelector: '.form__input',
-//   submitButtonSelector: '.form__button',
-//   inactiveButtonClass: 'form__button_disabled',
-//   inputErrorClass: 'form__input_type_error',
-//   errorClass: 'popup__error_visible'
-// }); 
+};
