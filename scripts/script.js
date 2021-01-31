@@ -44,16 +44,14 @@ const profileButtonEdit = root.querySelector('.profile__button-edit');
 // сам попап
 const popupProfileEdit = root.querySelector('.popup_section_profile-edit');
 // закрытие попапа
-const ButtonClosePopupProfileEdit = root.querySelector('.popup__button-close_section_profile-edit');
+const buttonClosePopupProfileEdit = root.querySelector('.popup__button-close_section_profile-edit');
 // форма попапа
 const formElementPopupProfileEdit = root.querySelector('.form_section_profile-edit');
-// sabmit попапа
-const ButtonSubmitPopupProfileEdit = root.querySelector('.form__button_section_profile-edit');
 // селекторы формы и страницы для редактирования
-let profileName = root.querySelector('.profile__name');
-let profileStatus = root.querySelector('.profile__status');
-let firstFieldFormEdit = root.querySelector('.form__input_field_profile-name');
-let secondFieldFormEdit = root.querySelector('.form__input_field_profile-status');
+const profileName = root.querySelector('.profile__name');
+const profileStatus = root.querySelector('.profile__status');
+const firstFieldFormEdit = root.querySelector('.form__input_field_profile-name');
+const secondFieldFormEdit = root.querySelector('.form__input_field_profile-status');
 // ------------------------------------------------------------------------
 
 // ---------------------- попап добавления карточки -----------------------
@@ -62,30 +60,32 @@ const profileButtonAdd = root.querySelector('.profile__button-add');
 // сам попап
 const popupCardAdd = root.querySelector('.popup_section_card-add');
 // закрытие попапа
-const ButtonClosePopupCardAdd = root.querySelector('.popup__button-close_section_card-add');
+const buttonClosePopupCardAdd = root.querySelector('.popup__button-close_section_card-add');
 // форма попапа
 const formElementPopupCardAdd = root.querySelector('.form_section_card-add');
-// sabmit попапа
-const ButtonSubmitPopupCardAdd = root.querySelector('.form__button_section_card-add');
 // селекторы формы для добавления 
-let firstFieldFormAdd = root.querySelector('.form__input_field_card-name');
-let secondFieldFormAdd = root.querySelector('.form__input_field_card-link');
+const firstFieldFormAdd = root.querySelector('.form__input_field_card-name');
+const secondFieldFormAdd = root.querySelector('.form__input_field_card-link');
+// кнопка submit
+const buttonFormAddCardSubmit = root.querySelector('.form__button_section_card-add');
 // ------------------------------------------------------------------------
 
 // -------------------- попап увеличения изображения ----------------------
 // сам попап
 const popupImageZoom = root.querySelector('.popup_section_image-zoom');
 // закрытие попапа
-const ButtonClosePopupImageZoom = root.querySelector('.popup__button-close_section_image-zoom');
+const buttonClosePopupImageZoom = root.querySelector('.popup__button-close_section_image-zoom');
 // селекторы формы для увеличения изображения
 const popupImage = root.querySelector('.popup__image');
 const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
 // ------------------------------------------------------------------------
+const formCardAddInputs = Array.from(formElementPopupCardAdd.querySelectorAll(configValidation.inputSelector));
+
 
 // Функции
 
 // создаем карточку и возвращаем ее
-const creationCard = element => {
+const createCard = element => {
   // делаем копию содержимого template-а карточек
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector('.element__image');
@@ -97,31 +97,31 @@ const creationCard = element => {
   cardTitle.textContent = element.name;
   cardImage.alt = element.name;
   // ставим лайк
-  cardLiked(cardLike);
+  setCardLikeListener(cardLike);
   // удаляем карточку
-  cardRemoved(cardTrash);
+  setCardRemoveListener(cardTrash);
   // открытие попапа УИК
-  imagePopupZoomed(cardImage);
+  setCardZoomListener(cardImage);
   // возвращаем карточку
   return cardElement;
 }
 
 // функция постановки лайка
-const cardLiked = cardLike => {
+const setCardLikeListener = cardLike => {
   cardLike.addEventListener('click', evt => {
     evt.target.classList.toggle('element__like_active');
   });
 };
 
 // функция удаления карточки
-const cardRemoved = cardTrash => {
+const setCardRemoveListener = cardTrash => {
   cardTrash.addEventListener('click', evt => {
     evt.target.closest('.element').remove();
   });
 };
 
 // функция увеличения изображения
-const imagePopupZoomed = cardImage => {
+const setCardZoomListener = cardImage => {
   cardImage.addEventListener('click', evt => {
     popupImage.src = evt.target.src;
     popupImage.alt = evt.target.alt;
@@ -132,7 +132,7 @@ const imagePopupZoomed = cardImage => {
 
 // функция добавления на страницу
 const renderCard = cardElement => {
-  elements.prepend(creationCard(cardElement));
+  elements.prepend(createCard(cardElement));
 }
 
 // выводим карточки
@@ -163,7 +163,6 @@ const closePopupEscape = evt => {
 const openPopup = popupElement => {
   popupElement.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEscape);
-  enableValidation();
 } 
 
 // функция закрытия popup-а
@@ -195,7 +194,7 @@ const handleEditFormSubmit = evt => {
 }
 
 // пресет окна редактирования профиля
-function presetPopupProfileEdit() {
+const presetPopupProfileEdit = () => {
   firstFieldFormEdit.value = profileName.textContent;
   secondFieldFormEdit.value = profileStatus.textContent;
 };
@@ -206,16 +205,14 @@ function presetPopupProfileEdit() {
 // нажатие на кнопку редактирования профиля
 profileButtonEdit.addEventListener('click', function() {
   presetPopupProfileEdit();
+  resetFormErrors(formElementPopupProfileEdit);
   openPopup(popupProfileEdit);
 });
 
 // нажатие на кнопку закрытия попапа
-ButtonClosePopupProfileEdit.addEventListener('click', function() {
+buttonClosePopupProfileEdit.addEventListener('click', function() {
   closePopup(popupProfileEdit);
 });
-
-// закрытие попапа на Escape
-
 
 // отправка формы
 formElementPopupProfileEdit.addEventListener('submit', handleEditFormSubmit);
@@ -225,11 +222,13 @@ formElementPopupProfileEdit.addEventListener('submit', handleEditFormSubmit);
 // нажатие на кнопку добавление карточки
 profileButtonAdd.addEventListener('click', function() {
   formElementPopupCardAdd.reset();
+  resetFormErrors(formElementPopupCardAdd);
   openPopup(popupCardAdd);
+  toggleButtonState(formCardAddInputs, buttonFormAddCardSubmit);
 });
 
 // нажатие на кнопку закрытия попапа
-ButtonClosePopupCardAdd.addEventListener('click', function() {
+buttonClosePopupCardAdd.addEventListener('click', function() {
   closePopup(popupCardAdd);
 });
 
@@ -239,7 +238,7 @@ formElementPopupCardAdd.addEventListener('submit', handleAddFormSubmit);
 
 // --------------- для увеличения изображения карточки ------------------
 // нажатие на кнопку закрытия попапа
-ButtonClosePopupImageZoom.addEventListener('click', function() {
+buttonClosePopupImageZoom.addEventListener('click', function() {
   closePopup(popupImageZoom);
 });
 // ----------------------------------------------------------------------

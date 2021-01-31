@@ -1,7 +1,7 @@
 // Валидация форм
 
 // конфигурация для валидации
-const validationConfig = {
+const configValidation = {
   formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
@@ -17,11 +17,11 @@ const showInputError = (formElement, inputElement, errorMessage) => {
   // и заносим данные в константу
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   // добавляем полю ввода селектор ошибки (красная граница)
-  inputElement.classList.add(validationConfig.inputErrorClass);
+  inputElement.classList.add(configValidation.inputErrorClass);
   // заносим в тест ошибки входное сообщение ошибки
   errorElement.textContent = errorMessage;
   // делаем текст ошибки видимым
-  errorElement.classList.add(validationConfig.errorClass);
+  errorElement.classList.add(configValidation.errorClass);
 };
 
 // функция скрытия ошибки (форма, поле ввода)
@@ -30,9 +30,9 @@ const hideInputError = (formElement, inputElement) => {
   // и заносим данные в константу
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   // удаляем селектор ошибки поля ввода (красная граница)
-  inputElement.classList.remove(validationConfig.inputErrorClass);
+  inputElement.classList.remove(configValidation.inputErrorClass);
   // скрываем текст ошибки
-  errorElement.classList.remove(validationConfig.errorClass);
+  errorElement.classList.remove(configValidation.errorClass);
   // очищаем текст ошибки
   errorElement.textContent = '';
 };
@@ -51,9 +51,9 @@ const checkInputValidity = (formElement, inputElement) => {
 // функция добавления слушателей к полям (форма)
 const setEventListeners = (formElement) => {
   // создаем массив и заполяем его полями воода данной формы
-  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
+  const inputList = Array.from(formElement.querySelectorAll(configValidation.inputSelector));
   // находим кнопку sabmit-а
-  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+  const buttonElement = formElement.querySelector(configValidation.submitButtonSelector);
   // вызываем функцию переключения состояния кнопки sabmit (поля формы, кнопка sabmit формы)
   toggleButtonState(inputList, buttonElement);
   // проходимся по массиву и к каждому полю ввода применяем функцию
@@ -70,17 +70,17 @@ const setEventListeners = (formElement) => {
 
 // функция, ответственная за включение валидации форм
 const enableValidation = () => {
-    // заполняем массив формами на странице
-    const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
-    // к каждой форме применяем функцию
-    formList.forEach((formElement) => {
+  // заполняем массив формами на странице
+  const formList = Array.from(document.querySelectorAll(configValidation.formSelector));
+  // к каждой форме применяем функцию
+  formList.forEach((formElement) => {
     // добавляем слушатель на отправку формы
     formElement.addEventListener('submit', function (evt) {
       // запрещаем браузеру обновлять страницу
       evt.preventDefault();
     });
     // заполняем массив полями данной формы
-    const fieldsetList = Array.from(formElement.querySelectorAll(validationConfig.fieldsSelector));
+    const fieldsetList = Array.from(formElement.querySelectorAll(configValidation.fieldsSelector));
     // к каждому полю применяем функцию
     fieldsetList.forEach((fieldSet) => {
       // вызываем функцию добавления слушателей
@@ -95,7 +95,7 @@ const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     // проверяем условие, есть ли хотя бы один элемент, не прошедший валидацию
     return !inputElement.validity.valid;
-  })
+  });
 };
 
 // функция переключения состояния кпонки sabmit (массив полей, кнопка sabmit)
@@ -103,9 +103,23 @@ const toggleButtonState = (inputList, buttonElement) => {
   // если хотя бы одно поле ввода не прошло проверку на валидность
   if (hasInvalidInput(inputList)) {
     // делаем кнопку неактивной
-    buttonElement.classList.add(validationConfig.inactiveButtonClass);
+    buttonElement.classList.add(configValidation.inactiveButtonClass);
     // иначе - делаем активной
   } else {
-    buttonElement.classList.remove(validationConfig.inactiveButtonClass);
+    buttonElement.classList.remove(configValidation.inactiveButtonClass);
   }
 };
+
+// функция обнуления ошибок
+const resetFormErrors = (formElement) => {
+  const formInputs = Array.from(formElement.querySelectorAll(configValidation.inputSelector));
+  formInputs.forEach(function (inputArrayElement) {
+    const errorElement = formElement.querySelector(`.${inputArrayElement.id}-error`);
+    inputArrayElement.classList.remove(configValidation.inputErrorClass);
+    errorElement.classList.remove(configValidation.errorClass);
+    errorElement.textContent = '';
+  });
+};
+
+// включаем валидацию на сайте
+enableValidation();
