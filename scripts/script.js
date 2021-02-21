@@ -54,59 +54,59 @@ const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
 // ------------------------------------------------------------------------
 const formCardAddInputs = Array.from(formElementPopupCardAdd.querySelectorAll(configValidation.inputSelector));
 
-
+export { popupImage, popupTitleZoomImage, openPopup, popupImageZoom };
 // Функции
 
-// создаем карточку и возвращаем ее
-const createCard = element => {
-  // делаем копию содержимого template-а карточек
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImage = cardElement.querySelector('.element__image');
-  const cardTitle = cardElement.querySelector('.element__title');
-  const cardLike = cardElement.querySelector('.element__like');
-  const cardTrash = cardElement.querySelector('.element__trash-button');
-  // берем изображение и имя из объекта
-  cardImage.src = element.link;
-  cardTitle.textContent = element.name;
-  cardImage.alt = element.name;
-  // ставим лайк
-  setCardLikeListener(cardLike);
-  // удаляем карточку
-  setCardRemoveListener(cardTrash);
-  // открытие попапа УИК
-  setCardZoomListener(cardImage);
-  // возвращаем карточку
-  return cardElement;
-}
+// // создаем карточку и возвращаем ее
+// const createCard = element => {
+//   // делаем копию содержимого template-а карточек
+//   const cardElement = cardTemplate.cloneNode(true);
+//   const cardImage = cardElement.querySelector('.element__image');
+//   const cardTitle = cardElement.querySelector('.element__title');
+//   const cardLike = cardElement.querySelector('.element__like');
+//   const cardTrash = cardElement.querySelector('.element__trash-button');
+//   // берем изображение и имя из объекта
+//   cardImage.src = element.link;
+//   cardTitle.textContent = element.name;
+//   cardImage.alt = element.name;
+//   // ставим лайк
+//   setCardLikeListener(cardLike);
+//   // удаляем карточку
+//   setCardRemoveListener(cardTrash);
+//   // открытие попапа УИК
+//   setCardZoomListener(cardImage);
+//   // возвращаем карточку
+//   return cardElement;
+// }
 
-// функция постановки лайка
-const setCardLikeListener = cardLike => {
-  cardLike.addEventListener('click', evt => {
-    evt.target.classList.toggle('element__like_active');
-  });
-};
+// // функция постановки лайка
+// const setCardLikeListener = cardLike => {
+//   cardLike.addEventListener('click', evt => {
+//     evt.target.classList.toggle('element__like_active');
+//   });
+// };
 
-// функция удаления карточки
-const setCardRemoveListener = cardTrash => {
-  cardTrash.addEventListener('click', evt => {
-    evt.target.closest('.element').remove();
-  });
-};
+// // функция удаления карточки
+// const setCardRemoveListener = cardTrash => {
+//   cardTrash.addEventListener('click', evt => {
+//     evt.target.closest('.element').remove();
+//   });
+// };
 
-// функция увеличения изображения
-const setCardZoomListener = cardImage => {
-  cardImage.addEventListener('click', evt => {
-    popupImage.src = evt.target.src;
-    popupImage.alt = evt.target.alt;
-    popupTitleZoomImage.textContent = evt.target.alt;
-    openPopup(popupImageZoom);
-  });
-};
+// // функция увеличения изображения
+// const setCardZoomListener = cardImage => {
+//   cardImage.addEventListener('click', evt => {
+//     popupImage.src = evt.target.src;
+//     popupImage.alt = evt.target.alt;
+//     popupTitleZoomImage.textContent = evt.target.alt;
+//     openPopup(popupImageZoom);
+//   });
+// };
 
-// функция добавления на страницу
-const renderCard = cardElement => {
-  elements.prepend(createCard(cardElement));
-}
+// // функция добавления на страницу
+// const renderCard = cardElement => {
+//   elements.prepend(createCard(cardElement));
+// }
 
 // выводим карточки
 // cardsReverse.forEach(renderCard);
