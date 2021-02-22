@@ -1,13 +1,66 @@
 // Импорты
-import Card from './card.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
+// Экспорты
+export { popupImage, popupTitleZoomImage, openPopup,
+         popupImageZoom, profileButtonEdit, profileButtonAdd };
 
 // Переменные
 
+// создаем объект с карточками
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+]; 
+
+// объект с селекторами для валидации форм
+const configValidation = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__button',
+  inactiveButtonClass: 'form__button_disabled',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__error_visible',
+  fieldsSelector: '.form__fields'
+};
+
+// объект с селекторами для шаблона карточек
+const configGenerationCards = {
+  cardElement: '.element',
+  cardImage: '.element__image',
+  cardTitle: '.element__title',
+  cardLike: '.element__like',
+  cardTrash: '.element__trash-button'
+};
+
+// перевернем массив
+const cardsReverse = initialCards.reverse();
 // селекторы страницы
 const root = document.querySelector('.root');
 const elements = root.querySelector('.elements');
-// нашли template карточек на странице
-const cardTemplate = root.querySelector('#card-template').content;
 // создали массив popup-ов
 const popupList = Array.from(document.querySelectorAll('.popup'));
 
@@ -39,8 +92,6 @@ const formElementPopupCardAdd = root.querySelector('.form_section_card-add');
 // селекторы формы для добавления 
 const firstFieldFormAdd = root.querySelector('.form__input_field_card-name');
 const secondFieldFormAdd = root.querySelector('.form__input_field_card-link');
-// кнопка submit
-const buttonFormAddCardSubmit = root.querySelector('.form__button_section_card-add');
 // ------------------------------------------------------------------------
 
 // -------------------- попап увеличения изображения ----------------------
@@ -52,64 +103,31 @@ const buttonClosePopupImageZoom = root.querySelector('.popup__button-close_secti
 const popupImage = root.querySelector('.popup__image');
 const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
 // ------------------------------------------------------------------------
-const formCardAddInputs = Array.from(formElementPopupCardAdd.querySelectorAll(configValidation.inputSelector));
 
-export { popupImage, popupTitleZoomImage, openPopup, popupImageZoom };
 // Функции
 
-// // создаем карточку и возвращаем ее
-// const createCard = element => {
-//   // делаем копию содержимого template-а карточек
-//   const cardElement = cardTemplate.cloneNode(true);
-//   const cardImage = cardElement.querySelector('.element__image');
-//   const cardTitle = cardElement.querySelector('.element__title');
-//   const cardLike = cardElement.querySelector('.element__like');
-//   const cardTrash = cardElement.querySelector('.element__trash-button');
-//   // берем изображение и имя из объекта
-//   cardImage.src = element.link;
-//   cardTitle.textContent = element.name;
-//   cardImage.alt = element.name;
-//   // ставим лайк
-//   setCardLikeListener(cardLike);
-//   // удаляем карточку
-//   setCardRemoveListener(cardTrash);
-//   // открытие попапа УИК
-//   setCardZoomListener(cardImage);
-//   // возвращаем карточку
-//   return cardElement;
-// }
+// создание карточки
+const createCard = (item) => {
+    // создаем экземпляр класса для каждого элемента массива
+	const card = new Card(item, configGenerationCards, '#card-template');
+  const cardElement = card.generateCard();
+  // добавляем в разметку
+	elements.prepend(cardElement);
+}
 
-// // функция постановки лайка
-// const setCardLikeListener = cardLike => {
-//   cardLike.addEventListener('click', evt => {
-//     evt.target.classList.toggle('element__like_active');
-//   });
-// };
+// выводим карточки 
+cardsReverse.forEach((item) => {
+  createCard(item);
+});
 
-// // функция удаления карточки
-// const setCardRemoveListener = cardTrash => {
-//   cardTrash.addEventListener('click', evt => {
-//     evt.target.closest('.element').remove();
-//   });
-// };
-
-// // функция увеличения изображения
-// const setCardZoomListener = cardImage => {
-//   cardImage.addEventListener('click', evt => {
-//     popupImage.src = evt.target.src;
-//     popupImage.alt = evt.target.alt;
-//     popupTitleZoomImage.textContent = evt.target.alt;
-//     openPopup(popupImageZoom);
-//   });
-// };
-
-// // функция добавления на страницу
-// const renderCard = cardElement => {
-//   elements.prepend(createCard(cardElement));
-// }
-
-// выводим карточки
-// cardsReverse.forEach(renderCard);
+// применяем валидацию ко всем формам страницы
+// нашли формы
+const inputsList = Array.from(document.querySelectorAll('.form'));
+// к каждой применили валидацию
+inputsList.forEach((item) => {
+	const formValidator = new FormValidator(configValidation, item);
+  formValidator.enableValidation();
+});
 
 // закрытие на оверлей
 const closePopupOverlay = () => {
@@ -153,7 +171,7 @@ const handleAddFormSubmit = evt => {
                     link: secondFieldFormAdd.value
                   };
   // добавляем на страницу
-  renderCard(newCard);
+  createCard(newCard);
   closePopup(popupCardAdd);
 }
 
@@ -176,9 +194,8 @@ const presetPopupProfileEdit = () => {
 
 // -------------------- для редактирования профиля ----------------------
 // нажатие на кнопку редактирования профиля
-profileButtonEdit.addEventListener('click', function() {
+profileButtonEdit.addEventListener('click', () => {
   presetPopupProfileEdit();
-  resetFormErrors(formElementPopupProfileEdit);
   openPopup(popupProfileEdit);
 });
 
@@ -193,13 +210,11 @@ formElementPopupProfileEdit.addEventListener('submit', handleEditFormSubmit);
 
 // --------------------- для добавления карточки ------------------------
 // нажатие на кнопку добавление карточки
-profileButtonAdd.addEventListener('click', function() {
+profileButtonAdd.addEventListener('click', () => {
   formElementPopupCardAdd.reset();
-  resetFormErrors(formElementPopupCardAdd);
   openPopup(popupCardAdd);
-  toggleButtonState(formCardAddInputs, buttonFormAddCardSubmit);
-});
-
+})
+ 
 // нажатие на кнопку закрытия попапа
 buttonClosePopupCardAdd.addEventListener('click', function() {
   closePopup(popupCardAdd);

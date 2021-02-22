@@ -1,104 +1,84 @@
+// Импорты
 import { popupImage, popupTitleZoomImage, openPopup, popupImageZoom } from './script.js';
 
-// создаем объект с карточками
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-]; 
-
-// перевернем массив
-const cardsReverse = initialCards.reverse();
-
+// Создаем класс карточки и применяем экспорт по-умолчанию
 export default class Card {
-	constructor(data, cardSelector) {
+  // в конструктор принимаем объект с содержимым карточек, объект с селекторами шаблона и селектор template
+	constructor(data, config, cardSelector) {
+    // карточка
 		this._name = data.name;
 		this._link = data.link;
+    // шаблон
+    this._cardElement = config.cardElement;
+    this._cardImage = config.cardImage;
+    this._cardTitle = config.cardTitle;
+    this._cardLike = config.cardLike;
+    this._cardTrash = config.cardTrash;
+    // селектор шаблона
 		this._cardSelector = cardSelector;
 	}
 
+  // приватный метод, помещаем в переменную клон шаблона и возвращаем ее
 	_getTemplate() {
     const cardElement = document.querySelector(this._cardSelector)
-    .content.querySelector('.element').cloneNode(true);
+    .content.querySelector(this._cardElement).cloneNode(true);
 
     return cardElement;
   }
   
+  // публичный метод, создает карточку и навешивает обработчики
   generateCard() {
+    // поместили в переменную содержимое приватного метода
     this._element = this._getTemplate();
-
-    this._element.querySelector('.element__image').src = this._link;
-    this._element.querySelector('.element__image').alt = this._name;
-    this._element.querySelector('.element__title').textContent = this._name;
-
+    //  наполняем карточку содержимым из объекта
+    this._element.querySelector(this._cardImage).src = this._link;
+    this._element.querySelector(this._cardImage).alt = this._name;
+    this._element.querySelector(this._cardTitle).textContent = this._name;
+    // навешиваем обработчики
+    // слушатель лайка
     this._handleCardLikeListener();
+    // слушатель удаления
     this._handleCardRemoveListener();
+    // слушатель увеличения
     this._handleCardZoomListener();
 
+    // возвращаем готовую карточку
     return this._element;
   }
 
-  // лайк
+  // приватный метод, лайк
   _handleCardLikeClick() {
-    this._element.querySelector('.element__like').classList.toggle('element__like_active');
+    this._element.querySelector(this._cardLike).classList.toggle('element__like_active');
   }
-
+  // приватный метод, слушатель нажатия на лайк
   _handleCardLikeListener() {
-    this._element.querySelector('.element__like').addEventListener('click', () => {
+    this._element.querySelector(this._cardLike).addEventListener('click', () => {
       this._handleCardLikeClick();
     });
   }
 
-  // удаление карточки
+  // приватный метод, удаление карточки
   _handleCardRemoveClick() {
-    this._element.closest('.element').remove();
+    this._element.closest(this._cardElement).remove();
   }
-
+  // приватный метод, слушатель нажатия на корзину
   _handleCardRemoveListener() {
-    this._element.querySelector('.element__trash-button').addEventListener('click', () => {
+    this._element.querySelector(this._cardTrash).addEventListener('click', () => {
       this._handleCardRemoveClick();
     });
   }
 
-  // зум карточки
+  // приватный метод, зум карточки
   _handleCardZoomClick() {
-    popupImage.src = this._element.querySelector('.element__image').src;
-    popupImage.alt = this._element.querySelector('.element__image').alt;
-    popupTitleZoomImage.textContent = this._element.querySelector('.element__image').alt;
+    popupImage.src = this._element.querySelector(this._cardImage).src;
+    popupImage.alt = this._element.querySelector(this._cardImage).alt;
+    popupTitleZoomImage.textContent = this._element.querySelector(this._cardImage).alt;
     openPopup(popupImageZoom);
   }
-
+  // приватный метод, слушатель нажатия картинку карточки
   _handleCardZoomListener() {
-    this._element.querySelector('.element__image').addEventListener('click', () => {
+    this._element.querySelector(this._cardImage).addEventListener('click', () => {
       this._handleCardZoomClick();
     });
   }
 }
-
-cardsReverse.forEach((item) => {
-	const card = new Card(item, '#card-template');
-  const cardElement = card.generateCard();
-
-	document.querySelector('.elements').append(cardElement);
-});
