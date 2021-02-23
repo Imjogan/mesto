@@ -30,9 +30,10 @@ export default class Card {
   generateCard() {
     // поместили в переменную содержимое приватного метода
     this._element = this._getTemplate();
+    this._cardPicture = this._element.querySelector(this._cardImage);
     //  наполняем карточку содержимым из объекта
-    this._element.querySelector(this._cardImage).src = this._link;
-    this._element.querySelector(this._cardImage).alt = this._name;
+    this._cardPicture.src = this._link;
+    this._cardPicture.alt = this._name;
     this._element.querySelector(this._cardTitle).textContent = this._name;
     // навешиваем обработчики
     // слушатель лайка
@@ -70,14 +71,14 @@ export default class Card {
 
   // приватный метод, зум карточки
   _handleCardZoomClick() {
-    popupImage.src = this._element.querySelector(this._cardImage).src;
-    popupImage.alt = this._element.querySelector(this._cardImage).alt;
-    popupTitleZoomImage.textContent = this._element.querySelector(this._cardImage).alt;
+    popupImage.src = this._link;
+    popupImage.alt = this._name;
+    popupTitleZoomImage.textContent = this._name;
     openPopup(popupImageZoom);
   }
   // приватный метод, слушатель нажатия картинку карточки
   _handleCardZoomListener() {
-    this._element.querySelector(this._cardImage).addEventListener('click', () => {
+    this._cardPicture.addEventListener('click', () => {
       this._handleCardZoomClick();
     });
   }

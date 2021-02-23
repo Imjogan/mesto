@@ -1,10 +1,7 @@
-// Импорты
-import { profileButtonEdit, profileButtonAdd } from './script.js';
-
 // Создаем класс карточки и применяем экспорт по-умолчанию
 export default class FormValidator {
-  // в конструктор принимаем объект с селекторами формы и текущий селектор формы
-	constructor(data, activeFormValidation) {
+  // в конструктор принимаем объект с селекторами формы и текущее поле ввода
+	constructor(data, inputElement) {
     // селекторы формы
 		this._formSelector = data.formSelector;
 		this._inputSelector = data.inputSelector;
@@ -13,8 +10,12 @@ export default class FormValidator {
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
     this._fieldsSelector = data.fieldsSelector;
-    // текущий селектор формы
-    this._activeFormValidation = activeFormValidation;
+    // текущее поле ввода
+    this._inputElement = inputElement;
+
+
+    this._inputList = Array.from(this._formSelector.querySelectorAll(this._inputSelector));
+    this._fieldsetList = Array.from(this._formSelector.querySelectorAll(this._fieldsSelector));
 	}
 
   // функция отобржения ошибки (форма, поле ввода, сообщение ошибки)
@@ -88,23 +89,15 @@ export default class FormValidator {
   };
 
   // функция, ответственная за включение валидации форм
-  enableValidation = () => {
-    // заполняем массив формами на странице
-    const formList = Array.from(document.querySelectorAll(this._formSelector));
-    // к каждой форме применяем функцию
-    formList.forEach((formElement) => {
-      // добавляем слушатель на отправку формы
-      formElement.addEventListener('submit', (evt) => {
-        // запрещаем браузеру обновлять страницу
-        evt.preventDefault();
-      });
-      // заполняем массив полями данной формы
-      const fieldsetList = Array.from(formElement.querySelectorAll(this._fieldsSelector));
-      // к каждому полю применяем функцию
-      fieldsetList.forEach((fieldSet) => {
-        // вызываем функцию добавления слушателей
-        this._setEventListeners(fieldSet);
-      });
+  enableValidation = (formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      // запрещаем браузеру обновлять страницу
+      evt.preventDefault();
+    });
+    // к каждому полю применяем функцию
+    this._fieldsetList.forEach((fieldSet) => {
+      // вызываем функцию добавления слушателей
+      this._setEventListeners(fieldSet);
     });
   };
 

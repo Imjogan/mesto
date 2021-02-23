@@ -122,11 +122,11 @@ cardsReverse.forEach((item) => {
 
 // применяем валидацию ко всем формам страницы
 // нашли формы
-const inputsList = Array.from(document.querySelectorAll('.form'));
+const formsList = Array.from(document.querySelectorAll(configValidation.formSelector));
 // к каждой применили валидацию
-inputsList.forEach((item) => {
+formsList.forEach((item) => {
 	const formValidator = new FormValidator(configValidation, item);
-  formValidator.enableValidation();
+  formValidator.enableValidation(item);
 });
 
 // закрытие на оверлей
