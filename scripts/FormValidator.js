@@ -59,20 +59,6 @@ export default class FormValidator {
   _setEventListeners = () => {
     // вызываем функцию переключения состояния кнопки sabmit (поля формы, кнопка sabmit формы)
     this._toggleButtonState();
-    this._resetFormErrors();
-    // // добавляем слушатель для отслеживания открытия попапов с формами
-    // document.addEventListener('click', (evt) => {
-    //   // если открыт попап добавления карточки
-    //   if(evt.target === profileButtonAdd) {
-    //     // сбросим ошибки формы и проверим кнопку сабмита
-    //     this._resetFormErrors();
-    //     this._toggleButtonState();
-    //     // если открыт попап редактирования профиля
-    //   } else if(evt.target === profileButtonEdit) {
-    //     // очищаем ошибки формы
-    //     this._resetFormErrors();
-    //   }
-    // });
     // проходимся по массиву и к каждому полю ввода применяем функцию
     this._inputList.forEach((inputElement) => {
       // добавляем слушатель события на ввод в поле 
