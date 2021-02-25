@@ -1,5 +1,5 @@
 // Импорты
-import Card from './Card.js';
+import Card from './Сard.js';
 import FormValidator from './FormValidator.js';
 
 // Экспорты

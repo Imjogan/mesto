@@ -13,7 +13,7 @@ export default class FormValidator {
     // текущая форма
     this._formElement = formElement;
 
-    this._buttonSubmitForm = this._formElement.querySelector(this._submitButtonSelector);
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
     this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     this._fieldsetList = Array.from(this._formElement.querySelectorAll(this._fieldsSelector));
 	}
@@ -98,10 +98,10 @@ export default class FormValidator {
     // если хотя бы одно поле ввода не прошло проверку на валидность
     if (this._hasInvalidInput()) {
       // делаем кнопку неактивной
-      this._buttonSubmitForm.classList.add(this._inactiveButtonClass);
+      this._buttonElement.classList.add(this._inactiveButtonClass);
       // иначе - делаем активной
     } else {
-      this._buttonSubmitForm.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.classList.remove(this._inactiveButtonClass);
     }
   };
 
