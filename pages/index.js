@@ -1,6 +1,7 @@
 // Импорты
-import Card from './Сard.js';
-import FormValidator from './FormValidator.js';
+import Card from '../components/Сard.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
 
 // Экспорты
 export { popupImage, popupTitleZoomImage, openPopup,
@@ -64,6 +65,8 @@ const elements = root.querySelector('.elements');
 // создали массив popup-ов
 const popupList = Array.from(document.querySelectorAll('.popup'));
 
+const popupButtonClose = root.querySelector('.popup__button-close');
+
 // --------------------- попап редактирования профиля ---------------------
 // селектор кнопки редактирования профиля
 const profileButtonEdit = root.querySelector('.profile__button-edit');
@@ -106,19 +109,18 @@ const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
 
 // Функции
 
-// создание карточки
-const createCard = (item) => {
-    // создаем экземпляр класса для каждого элемента массива
-	const card = new Card(item, configGenerationCards, '#card-template');
-  const cardElement = card.generateCard();
-  // добавляем в разметку
-	elements.prepend(cardElement);
-}
+// создание экземпляра секции с карточками
+const cardList = new Section({
+  items: cardsReverse,
+  renderer: (item) => {
+    const card = new Card(item, configGenerationCards, '#card-template');
+    const cardElement = card.generateCard();
+    cardList.addItem(cardElement);
+  }
+}, elements);
 
-// выводим карточки 
-cardsReverse.forEach((item) => {
-  createCard(item);
-});
+// отрисовка карточек на странице
+cardList.renderItems();
 
 // применяем валидацию ко всем формам страницы
 // нашли формы
@@ -143,6 +145,7 @@ const closePopupOverlay = () => {
 // вызываем функцию для закрытия на overlay
 closePopupOverlay();
 
+
 // закрытие попапа на Escape
 const closePopupEscape = evt => {
   if(evt.key === "Escape") {
@@ -161,6 +164,7 @@ const closePopup = popupElement => {
   popupElement.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEscape);
 }
+
 
 // функция отправки формы добавления карточки
 const handleAddFormSubmit = evt => {

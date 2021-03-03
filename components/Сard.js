@@ -1,5 +1,5 @@
 // Импорты
-import { popupImage, popupTitleZoomImage, openPopup, popupImageZoom } from './script.js';
+import { popupImage, popupTitleZoomImage, openPopup, popupImageZoom } from '../pages/index.js';
 
 // Создаем класс карточки и применяем экспорт по-умолчанию
 export default class Card {
