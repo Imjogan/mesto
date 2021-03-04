@@ -39,11 +39,11 @@ export default class PopupWithForm extends Popup {
   // собираем данные всех полей формы
   _getInputValues() {
     const inputArray = Array.from(this._form.querySelectorAll('.form__input'));
-    const inputsFormValue = inputArray.map((item) => {
+
+    const inputsValue = inputArray.map((item) => {
       return item.value;
     });
-    console.log(this._form);
-    console.log(inputsFormValue);
-    return inputsFormValue;
+    console.log(inputsValue);
+    return inputsValue;
   }
 }

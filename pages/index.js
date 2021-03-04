@@ -64,16 +64,12 @@ const cardsReverse = initialCards.reverse();
 // селекторы страницы
 const root = document.querySelector('.root');
 const elements = root.querySelector('.elements');
-// создали массив popup-ов
-const popupList = Array.from(document.querySelectorAll('.popup'));
-
-const popupButtonClose = root.querySelector('.popup__button-close');
 
 // --------------------- попап редактирования профиля ---------------------
 // селектор кнопки редактирования профиля
 const profileButtonEdit = root.querySelector('.profile__button-edit');
 // сам попап
-const popupProfileEdit = root.querySelector('.popup_section_profile-edit');
+// const popupProfileEdit = root.querySelector('.popup_section_profile-edit');
 // закрытие попапа
 const buttonClosePopupProfileEdit = root.querySelector('.popup__button-close_section_profile-edit');
 // форма попапа
@@ -136,25 +132,14 @@ formList.forEach((item) => {
   formValidator.enableValidation();
 });
 
-// // закрытие на оверлей
-// const closePopupOverlay = () => {
-//   popupList.forEach((popupElement) => {
-//     popupElement.addEventListener('click', function (evt) {
-//       if (evt.target === popupElement) {
-//         closePopup(popupElement);
-//       }
-//     });
-//   });
-// };
-
-// // вызываем функцию для закрытия на overlay
-// closePopupOverlay();
-
-const popupCardAdd = new PopupWithForm('.popup_section_card-add', () => {
-  // const data = [];
-  // data.push(cardInfo);
+// создание экземпляра попапа для добавления карточки
+const popupCardAdd = new PopupWithForm('.popup_section_card-add', (inputsValue) => {
+  const user = [];
+  [user.name, user.link] = inputsValue;
+  const obj = [];
+  obj.push(user);
   const newCard = new Section({
-    items: cardsReverse,
+    items: obj,
     renderer: (item) => {
       const card = new Card(item, configGenerationCards, '#card-template');
       const cardElement = card.generateCard();
@@ -164,40 +149,47 @@ const popupCardAdd = new PopupWithForm('.popup_section_card-add', () => {
   newCard.renderItems();
 });
 
+// повесили слушатели событий на попап добавления карточки
+popupCardAdd.setEventListeners();
 
-const openPopup = () => {
-
-}
-
-
+// слушатель нажатия на кнопку добавления карточки
 profileButtonAdd.addEventListener('click', () => {
   popupCardAdd.open();
-  popupCardAdd.setEventListeners();
 });
 
 
 
-// // закрытие попапа на Escape
-// const closePopupEscape = evt => {
-//   if(evt.key === "Escape") {
-//     closePopup(document.querySelector('.popup_opened'));
-//   }
-// }
 
-// // функция открытия popup-а
-// const openPopup = popupElement => {
-//   popupElement.classList.add('popup_opened');
-//   document.addEventListener('keydown', closePopupEscape);
-// } 
+// создание экземпляра попапа для редактирования профиля
+const popupProfileEdit = new PopupWithForm('.popup_section_profile-edit', (inputsValue) => {
+  const [name, status] = inputsValue;
+  userInfo.setUserInfo(name, status);
+});
 
-// // функция закрытия popup-а
-// const closePopup = popupElement => {
-//   popupElement.classList.remove('popup_opened');
-//   document.removeEventListener('keydown', closePopupEscape);
-// }
+// повесили слушатели событий на попап редактирования профиля
+popupProfileEdit.setEventListeners();
+
+// слушатель нажатия на кнопку редактирования профиля
+profileButtonEdit.addEventListener('click', () => {
+  popupProfileEdit.open();
+  userInfo.getUserInfo();
+});
+
+
+
+
+
+
+
 
 const userInfo = new UserInfo({ elementProfileName: '.profile__name',
                                 elementProfileStatus: '.profile__status'});
+
+
+
+console.log(userInfo.getUserInfo());
+
+
 
 
 // функция отправки формы добавления карточки
@@ -232,26 +224,26 @@ const presetPopupProfileEdit = () => {
 
 // -------------------- для редактирования профиля ----------------------
 // нажатие на кнопку редактирования профиля
-profileButtonEdit.addEventListener('click', () => {
-  presetPopupProfileEdit();
-  openPopup(popupProfileEdit);
-});
+// profileButtonEdit.addEventListener('click', () => {
+//   presetPopupProfileEdit();
+//   openPopup(popupProfileEdit);
+// });
 
-// нажатие на кнопку закрытия попапа
-buttonClosePopupProfileEdit.addEventListener('click', function() {
-  closePopup(popupProfileEdit);
-});
+// // нажатие на кнопку закрытия попапа
+// buttonClosePopupProfileEdit.addEventListener('click', function() {
+//   closePopup(popupProfileEdit);
+// });
 
-// отправка формы
-formElementPopupProfileEdit.addEventListener('submit', handleEditFormSubmit);
+// // отправка формы
+// formElementPopupProfileEdit.addEventListener('submit', handleEditFormSubmit);
 // ----------------------------------------------------------------------
 
 // --------------------- для добавления карточки ------------------------
-// нажатие на кнопку добавление карточки
-profileButtonAdd.addEventListener('click', () => {
-  formElementPopupCardAdd.reset();
-  openPopup(popupCardAdd);
-})
+// // нажатие на кнопку добавление карточки
+// profileButtonAdd.addEventListener('click', () => {
+//   formElementPopupCardAdd.reset();
+//   openPopup(popupCardAdd);
+// })
  
 // // нажатие на кнопку закрытия попапа
 // buttonClosePopupCardAdd.addEventListener('click', function() {
@@ -268,3 +260,49 @@ profileButtonAdd.addEventListener('click', () => {
 //   closePopup(popupImageZoom);
 // });
 // // ----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+const openPopup = () => {
+}
+
+
+
+
+// // закрытие попапа на Escape
+// const closePopupEscape = evt => {
+//   if(evt.key === "Escape") {
+//     closePopup(document.querySelector('.popup_opened'));
+//   }
+// }
+
+// // функция открытия popup-а
+// const openPopup = popupElement => {
+//   popupElement.classList.add('popup_opened');
+//   document.addEventListener('keydown', closePopupEscape);
+// } 
+
+// // функция закрытия popup-а
+// const closePopup = popupElement => {
+//   popupElement.classList.remove('popup_opened');
+//   document.removeEventListener('keydown', closePopupEscape);
+// }
+
+// // закрытие на оверлей
+// const closePopupOverlay = () => {
+//   popupList.forEach((popupElement) => {
+//     popupElement.addEventListener('click', function (evt) {
+//       if (evt.target === popupElement) {
+//         closePopup(popupElement);
+//       }
+//     });
+//   });
+// };
+
+// // вызываем функцию для закрытия на overlay
+// closePopupOverlay();
