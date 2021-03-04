@@ -76,6 +76,7 @@ export default class Card {
     popupTitleZoomImage.textContent = this._name;
     openPopup(popupImageZoom);
   }
+  
   // приватный метод, слушатель нажатия картинку карточки
   _handleCardZoomListener() {
     this._cardPicture.addEventListener('click', () => {
