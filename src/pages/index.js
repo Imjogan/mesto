@@ -1,4 +1,5 @@
 // Импорты
+import './index.css'; // импорт главного файла стилей 
 import Card from '../components/Сard.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
@@ -49,7 +50,7 @@ const popupCardAdd = new PopupWithForm('.popup_section_card-add', (inputsValue) 
   const newCard = new Section({
     items: obj,
     renderer: (item) => {
-      const card = new Card(item, configGenerationCards, '#card-template');
+      const card = new Card(item, configGenerationCards, '#card-template', handleCardClick);
       const cardElement = card.generateCard();
       newCard.addItem(cardElement);
     }
