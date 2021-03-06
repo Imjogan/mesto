@@ -1,10 +1,9 @@
-// Импорты
-import { popupImage, popupTitleZoomImage, openPopup, popupImageZoom } from '../pages/index.js';
-
 // Создаем класс карточки и применяем экспорт по-умолчанию
 export default class Card {
-  // в конструктор принимаем объект с содержимым карточек, объект с селекторами шаблона и селектор template
-	constructor(data, config, cardSelector) {
+  // в конструктор принимаем объект с содержимым карточек,
+  // объект с селекторами шаблона, селектор template и функция открытия попапа с картинкой
+	constructor(data, config, cardSelector, handleCardClick) {
+    this._handleCardClick = handleCardClick;
     // карточка
 		this._name = data.name;
 		this._link = data.link;
@@ -22,7 +21,7 @@ export default class Card {
 	_getTemplate() {
     const cardElement = document.querySelector(this._cardSelector)
     .content.querySelector(this._cardElement).cloneNode(true);
-
+    
     return cardElement;
   }
   
@@ -40,9 +39,8 @@ export default class Card {
     this._handleCardLikeListener();
     // слушатель удаления
     this._handleCardRemoveListener();
-    // слушатель увеличения
+    // слушатель нажатия на изображение
     this._handleCardZoomListener();
-
     // возвращаем готовую карточку
     return this._element;
   }
@@ -69,18 +67,10 @@ export default class Card {
     });
   }
 
-  // приватный метод, зум карточки
-  _handleCardZoomClick() {
-    popupImage.src = this._link;
-    popupImage.alt = this._name;
-    popupTitleZoomImage.textContent = this._name;
-    openPopup(popupImageZoom);
-  }
-  
-  // приватный метод, слушатель нажатия картинку карточки
+  // приватный метод, слушатель нажатия на изображение
   _handleCardZoomListener() {
     this._cardPicture.addEventListener('click', () => {
-      this._handleCardZoomClick();
+      this._handleCardClick(this._name, this._link);
     });
   }
 }

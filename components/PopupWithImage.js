@@ -1,5 +1,8 @@
 import Popup from './Popup.js';
-import { popupImage, popupTitleZoomImage } from '../pages/index.js';
+import {
+        popupImage,
+        popupTitleZoomImage
+} from '../utils/constants.js';
 
 export default class PopupWithImage extends Popup {
   constructor(popupSelector, name, link) {
@@ -22,12 +25,7 @@ export default class PopupWithImage extends Popup {
     super.close(); // вызываем родительский метод
   }
 
-  // метод зыкрытия попапа на Esc
-  _handleEscClose() {
-    super._handleEscClose(); // вызываем родительский метод
-  }
-
-  // слушатель клика иконке закрытия попапа
+  // слушатели
   setEventListeners() {
     super.setEventListeners(); // вызываем родительский метод
   }

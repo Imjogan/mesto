@@ -9,7 +9,7 @@ export default class PopupWithForm extends Popup {
     this._form = this._popup.querySelector('.form');
   }
 
-    // метод для открытия попапа
+  // метод для открытия попапа
   open() {
     super.open(); // вызываем родительский метод
   }
@@ -20,15 +20,9 @@ export default class PopupWithForm extends Popup {
     this._form.reset();
   }
 
-  // // метод зыкрытия попапа на Esc
-  // _handleEscClose(evt) {
-  //   super._handleEscClose(evt); // вызываем родительский метод
-  // }
-
   // слушатель клика
   setEventListeners() {
     super.setEventListeners(); // вызываем родительский метод
-    // добавляем функционал
     // обработчик сабмита
     this._form.addEventListener('submit', () => {
       this._handleFormSubmit(this._getInputValues());
@@ -43,7 +37,7 @@ export default class PopupWithForm extends Popup {
     const inputsValue = inputArray.map((item) => {
       return item.value;
     });
-    console.log(inputsValue);
+
     return inputsValue;
   }
 }
