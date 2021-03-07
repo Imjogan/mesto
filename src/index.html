@@ -39,12 +39,12 @@
             <fieldset class="form__fields">
               <label class="label">
                 <input type="text" class="form__input form__input_field_profile-name"
-                  name="profile-name" required minlength="2" maxlength="40" id="profile-name-input">
+                  name="profileName" required minlength="2" maxlength="40" id="profile-name-input">
                 <span class="form__error profile-name-input-error"></span>
               </label>
               <label class="label">
                 <input type="text" class="form__input form__input_field_profile-status"
-                  name="profile-status" required minlength="2" maxlength="200" id="profile-status-input">
+                  name="profileStatus" required minlength="2" maxlength="200" id="profile-status-input">
                 <span class="form__error profile-status-input-error"></span>
               </label>
               <button type="submit" class="form__button form__button_section_profile-edit">Сохранить</button>
@@ -61,12 +61,12 @@
             <fieldset class="form__fields">
               <label class="label">
                 <input type="text" placeholder="Название" class="form__input form__input_field_card-name"
-                  name="profile-name" required minlength="2" maxlength="30" id="card-name-input">
+                  name="cardName" required minlength="2" maxlength="30" id="card-name-input">
                 <span class="form__error card-name-input-error"></span>
               </label>
               <label class="label">
                 <input type="url" placeholder="Ссылка на картинку" class="form__input form__input_field_card-link"
-                  name="profile-status" required id="card-link-input">
+                  name="cardLink" required id="card-link-input">
                 <span class="form__error card-link-input-error"></span>
               </label>
               <button type="submit" class="form__button form__button_section_card-add">Добавить</button>
@@ -87,7 +87,7 @@
     <template id="card-template">
       <li class="element">
         <button type="button" class="element__trash-button"></button>
-        <img src="#" alt="alt" onerror="this.src='./images/filler.jpg'" class="element__image">
+        <img src="#" alt="alt" onerror="this.onerror=null; this.src='./images/filler.jpg'" class="element__image">
         <div class="element__container">
           <h2 class="element__title"></h2>
           <button type="button" class="element__like"></button>

@@ -1,32 +1,18 @@
 import Popup from './Popup.js';
-import {
-        popupImage,
-        popupTitleZoomImage
-} from '../utils/constants.js';
 
 export default class PopupWithImage extends Popup {
-  constructor(popupSelector, name, link) {
+  constructor(popupSelector, imageZoomPopapElement, titleZoomPopupElement) {
     super(popupSelector);
-    this._name = name;
-    this._link = link;
+    this._imagePopup = imageZoomPopapElement;
+    this._titlePopup = titleZoomPopupElement;
   }
 
     // метод для открытия попапа
-  open() {
+  open(name, link) {
     super.open(); // вызываем родительский метод
     // дополним новой функциональностью:
-    popupImage.src = this._link;
-    popupImage.alt = this._name;
-    popupTitleZoomImage.textContent = this._name;
-  }
-
-  // метод для закрытия попапа
-  close() {
-    super.close(); // вызываем родительский метод
-  }
-
-  // слушатели
-  setEventListeners() {
-    super.setEventListeners(); // вызываем родительский метод
+    this._imagePopup.src = link;
+    this._imagePopup.alt = link;
+    this._titlePopup.textContent = name;
   }
 }

@@ -55,7 +55,8 @@ export const configGenerationCards = {
 export const elements = root.querySelector('.elements');
 
 // формы страницы
-export const formList = Array.from(root.querySelectorAll(configValidation.formSelector));
+export const formProfileEdit = root.querySelector('.form_section_profile-edit');
+export const formAddCard = root.querySelector('.form_section_card-add');
 
 // --------------------- попап редактирования профиля ---------------------
 // селектор кнопки редактирования профиля

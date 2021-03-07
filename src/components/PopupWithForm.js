@@ -9,11 +9,6 @@ export default class PopupWithForm extends Popup {
     this._form = this._popup.querySelector('.form');
   }
 
-  // метод для открытия попапа
-  open() {
-    super.open(); // вызываем родительский метод
-  }
-
   // метод для закрытия попапа
   close() {
     super.close(); // вызываем родительский метод
@@ -26,7 +21,6 @@ export default class PopupWithForm extends Popup {
     // обработчик сабмита
     this._form.addEventListener('submit', () => {
       this._handleFormSubmit(this._getInputValues());
-      this.close();
     });
   }
 

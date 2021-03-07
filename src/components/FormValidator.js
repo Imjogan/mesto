@@ -57,7 +57,7 @@ export default class FormValidator {
 
   // функция добавления слушателей к полям (форма)
   _setEventListeners = () => {
-    // вызываем функцию переключения состояния кнопки sabmit (поля формы, кнопка sabmit формы)
+    // вызываем функцию переключения состояния кнопки sabmit
     this._toggleButtonState();
     // проходимся по массиву и к каждому полю ввода применяем функцию
     this._inputList.forEach((inputElement) => {
@@ -93,7 +93,7 @@ export default class FormValidator {
     });
   };
 
-  // функция переключения состояния кпонки sabmit (массив полей, кнопка sabmit)
+  // функция переключения состояния кпонки sabmit
   _toggleButtonState = () => {
     // если хотя бы одно поле ввода не прошло проверку на валидность
     if (this._hasInvalidInput()) {
@@ -106,7 +106,9 @@ export default class FormValidator {
   };
 
   // функция обнуления ошибок
-  _resetFormErrors = () => {
+  resetFormErrors = () => {
+    // блокируем кнопку по умолчанию
+    this._toggleButtonState();
     // проходим по каждому полю ввода
     this._inputList.forEach((inputArrayElement) => {
       // находим соответствующий span ошибки
