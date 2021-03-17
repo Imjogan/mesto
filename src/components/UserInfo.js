@@ -2,22 +2,24 @@
 export default class UserInfo {
   // в конструктор принимаем объект с селекторами двух элементов:
   // элемента имени пользователя и элемента информации о себе
-	constructor({elementProfileName, elementProfileStatus}) {
-		this._elementProfileName = document.querySelector(elementProfileName);
-		this._elementProfileStatus = document.querySelector(elementProfileStatus);
+	constructor({profileName, profileStatus, profileAvatar}) {
+		this._profileName = document.querySelector(profileName);
+		this._profileStatus = document.querySelector(profileStatus);
+    this._profileAvatar = document.querySelector(profileAvatar);
 	}
 
   // метод возвращает объект с данными пользователя
   getUserInfo() {
     return { 
-              name: this._elementProfileName.textContent,
-              status: this._elementProfileStatus.textContent
+              name: this._profileName.textContent,
+              status: this._profileStatus.textContent
             };
   }
 
   // метод принимает новые данные пользователя и добавляет их на страницу
-  setUserInfo(name, status) {
-    this._elementProfileName.textContent = name;
-    this._elementProfileStatus.textContent = status;
+  setUserInfo(name, status, avatar = 'https://pictures.s3.yandex.net/frontend-developer/common/ava.jpg') {
+    this._profileName.textContent = name;
+    this._profileStatus.textContent = status;
+    this._profileAvatar.src = avatar;
   }
-} 
+}
