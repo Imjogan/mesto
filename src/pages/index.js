@@ -8,7 +8,6 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Api from '../components/Api.js';
 import {
-        cardsReverse,
         elements,
         formProfileEdit,
         formAddCard,
@@ -18,21 +17,53 @@ import {
         profileButtonEdit,
         inputArray,
         popupImage,
-        popupTitleZoomImage
+        popupTitleZoomImage,
+        buttonSubmitAdd
 } from '../utils/constants.js';
 
 // ------------------- создание экземпляра класса карточки -------------------
-const createCard = (item) => {
-  const card = new Card(item, configGenerationCards, '#card-template', handleCardClick);
+// const createCard = (item) => {
+//   const card = new Card(item, configGenerationCards, '#card-template', handleCardClick);
+//   const cardElement = card.generateCard();
+//   return cardElement;
+// };
+// ---------------------------------------------------------------------------
+
+
+const createCard = (cardData) => {
+  const card = new Card({
+    data: {
+      name: cardData.name,
+      link: cardData.link,
+      cardID: cardData._id,
+      owner: cardData.owner,
+      likes: cardData.likes
+    },
+    handleCardClick: (name, link) => {
+      // ...что должно произойти при клике на картинку
+      PopupZoomImage.open(name, link);
+    },
+    handleLikeClick: (data) => {
+      // ...что должно произойти при клике на лайк
+    },
+    handleDeleteIconClick: (data) => {
+      // ...что должно произойти при клике на удаление
+    }
+    },
+    '#card-template',
+    configGenerationCards
+  );
+  
   const cardElement = card.generateCard();
   return cardElement;
 };
-// ---------------------------------------------------------------------------
+
+
 
 // ------------------------ создание экземпляра секции -----------------------
 const cardList = new Section({
-  renderer: (item) => {
-    cardList.addItem(createCard(item));
+  renderer: (cardData) => {
+    cardList.addItem(createCard(cardData));
   }
 }, elements);
 // ---------------------------------------------------------------------------
@@ -47,18 +78,21 @@ formAddCardValidator.enableValidation();
 
 // ----------- создание экземпляра попапа для добавления карточки ------------
 const popupCardAdd = new PopupWithForm('.popup_section_card-add', (inputsValue) => {
-  const user = [];
+  const user = {};
   [user.name, user.link] = inputsValue;
-  const obj = [];
-  obj.push(user);
-  const newCard = new Section({
-    items: obj,
-    renderer: (item) => {
-      newCard.addItem(createCard(item));
-    }
-  }, elements);
-  newCard.renderItems();
+  buttonSubmitAdd.textContent = 'Добавление...';
+// вызываем метод для создания карточки на сервере и отрисовки ее на странице
+api.createUserInfo(user.name, user.link)
+  .then(card => {
+    const array = [];
+    array.push(card);
+    cardList.renderItems(array);
+    buttonSubmitAdd.textContent = 'Добавлено';
+  }).catch(error => {
+    console.log(error);
+  });
   popupCardAdd.close();
+  buttonSubmitAdd.textContent = 'Добавить';
 });
 // ---------------------------------------------------------------------------
 // навесили слушатели на попап
@@ -75,19 +109,14 @@ const userInfo = new UserInfo({
 // ---------- создание экземпляра попапа для редактирования профиля ----------
 const popupProfileEdit = new PopupWithForm('.popup_section_profile-edit', (inputsValue) => {
   const [name, status] = inputsValue;
-  // userInfo.setUserInfo(name, status);
-
-
   api.setUserInfo(name, status)
-    .then(res => res.json())
     .then(res => {
-      userInfo.setUserInfo(res.name, res.about);
+      console.log(res);
+      userInfo.setUserInfo(res);
     })
     .catch(error => {
       console.log(error);
     });
-
-
   popupProfileEdit.close();
 });
 // ---------------------------------------------------------------------------
@@ -101,9 +130,9 @@ const PopupZoomImage = new PopupWithImage('.popup_section_image-zoom', popupImag
 PopupZoomImage.setEventListeners();
 
 // ------------- функция для открытия попапа изображения карточки ------------
-function handleCardClick(name, link) {
-  PopupZoomImage.open(name, link);
-}
+// function handleCardClick(name, link) {
+//   PopupZoomImage.open(name, link);
+// }
 // ---------------------------------------------------------------------------
 
 // Слушатели 
@@ -151,12 +180,23 @@ const api = new Api({
 // вызываем метод для взятия данных карточек с сервера и отрисовки их на странице
 api.getInitialCards()
   .then(card => {
+    console.log(card);
     cardList.renderItems(card);
   }).catch(error => {
     console.log(error);
   })
 
+// получаем данные о пользователе 
 api.getUserInfo()
   .then(user => {
-    userInfo.setUserInfo(user.name, user.about, user.avatar);
+    userInfo.setUserInfo(user);
   })
+
+
+  // fetch('https://mesto.nomoreparties.co/v1/cohort-21/cards/6053110aceeee10036d68fef', {
+  //   method: 'DELETE',
+  //   headers: {
+  //     authorization: 'a3ab0050-d01a-4f5a-9bb4-4a039b0aa641',
+  //     'Content-Type': 'application/json'
+  //   }
+  // })

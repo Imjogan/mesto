@@ -17,9 +17,10 @@ export default class UserInfo {
   }
 
   // метод принимает новые данные пользователя и добавляет их на страницу
-  setUserInfo(name, status, avatar = 'https://pictures.s3.yandex.net/frontend-developer/common/ava.jpg') {
-    this._profileName.textContent = name;
-    this._profileStatus.textContent = status;
-    this._profileAvatar.src = avatar;
+  setUserInfo(user) {
+    this._profileName.textContent = user.name;
+    this._profileStatus.textContent = user.about;
+    this._profileAvatar.src = user.avatar;
+    this._userID = user._id;
   }
 }

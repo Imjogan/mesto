@@ -70,6 +70,7 @@ export const inputArray = Array.from(popupEdit.querySelectorAll('.form__input'))
 // ---------------------- попап добавления карточки -----------------------
 // селектор кнопки добавления карточки
 export const profileButtonAdd = root.querySelector('.profile__button-add');
+export const buttonSubmitAdd = root.querySelector('.form__button_section_card-add');
 // ------------------------------------------------------------------------
 
 // -------------------- попап увеличения изображения ----------------------

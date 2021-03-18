@@ -26,7 +26,7 @@ export default class Api {
     })
   }
 
-  // получаем информацию о пользователе на сервере
+  // отправляем информацию о пользователе на сервер
   setUserInfo(name, status) {
     return fetch(this._baseUrl+'/users/me', {
       method: 'PATCH',
@@ -35,7 +35,23 @@ export default class Api {
         name: name,
         about: status
       })
-    }).catch(error => {
+    }).then(res => res.json())
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+  // создаем карточку на сервере
+  createUserInfo(name, link) {
+    return fetch(this._baseUrl+'/cards', {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: name,
+        link: link
+      })
+    }).then(res => res.json())
+    .catch(error => {
       console.log(error);
     })
   }
