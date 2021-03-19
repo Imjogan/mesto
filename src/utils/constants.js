@@ -48,7 +48,8 @@ export const configGenerationCards = {
   cardImage: '.element__image',
   cardTitle: '.element__title',
   cardLike: '.element__like',
-  cardTrash: '.element__trash-button'
+  cardTrash: '.element__trash-button',
+  cardLikeCounter: '.element__like-counter'
 };
 
 // контейнер для карточек

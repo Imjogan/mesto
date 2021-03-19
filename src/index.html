@@ -74,6 +74,14 @@
           </form>
         </div>
       </section>
+      <!-- Popup подтверждения удаления карточки -->
+      <section class="popup popup_section_delete-confirm">
+        <div class="popup__container">
+          <button type="button" class="popup__button-close popup__button-close_section_delete-confirm"></button>
+          <h2 class="popup__title popup__title_section_delete-confirm">Вы уверены?</h2>
+          <button type="submit" class="form__button form__button_section_delete-confirm">Да</button>
+        </div>
+      </section>
       <!-- Popup увеличения изображений -->
       <section class="popup popup_section_image-zoom">
         <div class="popup__zoom-image">
@@ -90,7 +98,10 @@
         <img src="#" alt="alt" onerror="this.onerror=null; this.src='./images/filler.jpg'" class="element__image">
         <div class="element__container">
           <h2 class="element__title"></h2>
-          <button type="button" class="element__like"></button>
+          <div class="element__like-group">
+            <button type="button" class="element__like"></button>
+            <h3 class="element__like-counter"></h3>
+          </div>
         </div>
       </li>
     </template>

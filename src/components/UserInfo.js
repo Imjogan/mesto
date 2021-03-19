@@ -21,6 +21,10 @@ export default class UserInfo {
     this._profileName.textContent = user.name;
     this._profileStatus.textContent = user.about;
     this._profileAvatar.src = user.avatar;
-    this._userID = user._id;
+    this._user = user;
+  }
+
+  getUser() {
+    return this._user;
   }
 }

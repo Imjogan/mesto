@@ -3,7 +3,8 @@ export default class Card {
   // в конструктор принимаем объект с содержимым карточек,
   // объект с селекторами шаблона, селектор template и функция открытия попапа с картинкой
 	constructor({data, handleCardClick, handleLikeClick, handleDeleteIconClick},
-    cardSelector, config) {
+    cardSelector, config, user) {
+    this._user = user;
     // callback-и
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
@@ -14,12 +15,14 @@ export default class Card {
     this._cardId = data.cardID;
     this._cardOwner = data.owner;
     this._cardLikes = data.likes;
+    this._cardInfo = data;
     // шаблон
     this._cardElement = config.cardElement;
     this._cardImage = config.cardImage;
     this._cardTitle = config.cardTitle;
     this._cardLike = config.cardLike;
     this._cardTrash = config.cardTrash;
+    this._cardLikeCounter = config.cardLikeCounter;
     // селектор шаблона
 		this._cardSelector = cardSelector;
 	}
@@ -38,21 +41,31 @@ export default class Card {
     this._cardPicture = this._element.querySelector(this._cardImage);
     const deleteButton = this._element.querySelector(this._cardTrash);
     const likeButton = this._element.querySelector(this._cardLike);
+    const likeCounter = this._element.querySelector(this._cardLikeCounter);
     //  наполняем карточку содержимым из объекта
     this._cardPicture.src = this._cardLink;
     this._cardPicture.alt = this._cardName;
     this._element.querySelector(this._cardTitle).textContent = this._cardName;
+    likeCounter.textContent = this._cardLikes.length;
+
+    
     // навешиваем обработчики
     // слушатель лайка
-    // this._handleCardLikeListener();
     likeButton.addEventListener('click', () => {
-      this._handleCardLikeClick();
+      // console.log(this._cardLikes)
+      // console.log(this._user)
+      if(!this._cardLikes.includes(this._user)) {
+        // console.log('лайк уже стоит')
+      }
+      this._handleLikeClick(this._cardInfo);
+      likeCounter.textContent = this._cardLikes.length + 1;
+      this._element.querySelector(this._cardLike).classList.toggle('element__like_active');
     });
+
     // слушатель удаления
-    // this._handleCardRemoveListener();
-    if(this._cardOwner._id === '07677f92937aa6fd7541430e') {
+    if(this._cardOwner._id === this._user._id) {
       deleteButton.addEventListener('click', () => {
-        this._handleCardRemoveClick();
+        this._handleDeleteIconClick(this._cardId);
       });
     } else {
       deleteButton.remove();
@@ -65,19 +78,8 @@ export default class Card {
     return this._element;
   }
 
-  // приватный метод, лайк
-  _handleCardLikeClick() {
-    this._element.querySelector(this._cardLike).classList.toggle('element__like_active');
-  }
-  // приватный метод, слушатель нажатия на лайк
-  // _handleCardLikeListener() {
-  //   this._element.querySelector(this._cardLike).addEventListener('click', () => {
-  //     this._handleCardLikeClick();
-  //   });
-  // }
-
   // приватный метод, удаление карточки
-  _handleCardRemoveClick() {
+  removeCardLayout() {
     this._element.closest(this._cardElement).remove();
   }
 

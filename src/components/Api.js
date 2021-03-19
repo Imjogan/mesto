@@ -4,7 +4,7 @@ export default class Api {
     this._headers = options.headers;
   }
 
-  // получаем информацию о карточках на сервере
+  // получаем информацию о карточках
   getInitialCards() {
     return fetch(this._baseUrl+'/cards', {
       method: 'GET',
@@ -15,7 +15,7 @@ export default class Api {
     })
   }
 
-  // получаем информацию о пользователе на сервере
+  // получаем информацию о пользователе
   getUserInfo() {
     return fetch(this._baseUrl+'/users/me', {
       method: 'GET',
@@ -26,7 +26,7 @@ export default class Api {
     })
   }
 
-  // отправляем информацию о пользователе на сервер
+  // отправляем информацию о пользователе
   setUserInfo(name, status) {
     return fetch(this._baseUrl+'/users/me', {
       method: 'PATCH',
@@ -41,7 +41,7 @@ export default class Api {
     })
   }
 
-  // создаем карточку на сервере
+  // создаем карточку
   createUserInfo(name, link) {
     return fetch(this._baseUrl+'/cards', {
       method: 'POST',
@@ -50,6 +50,28 @@ export default class Api {
         name: name,
         link: link
       })
+    }).then(res => res.json())
+    .catch(error => {
+      console.log(error);
+    })
+  }
+  
+  // удаляем карточку
+  deleteCard(cardID) {
+    return fetch(this._baseUrl+'/cards/'+cardID, {
+      method: 'DELETE',
+      headers: this._headers
+    }).then(res => res.json())
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+  // ставим лайк на карточку
+  setLike(cardID) {
+    return fetch(this._baseUrl+'/cards/likes/'+cardID, {
+      method: 'PUT',
+      headers: this._headers
     }).then(res => res.json())
     .catch(error => {
       console.log(error);

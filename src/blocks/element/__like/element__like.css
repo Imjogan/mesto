@@ -1,5 +1,5 @@
 .element__like {
-  margin: auto 0 auto auto;
+  margin: 0 auto;
   padding: 0;
   width: 20px;
   height: 18px;
@@ -19,4 +19,23 @@
   
 .element__like_active {
   background-image: url(../../../images/like-active.svg);
+}
+
+.element__like-group {
+  padding: 0;
+  margin: auto 0 auto auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.element__like-counter {
+  padding: 0;
+  margin: 0 auto;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: black;
 }

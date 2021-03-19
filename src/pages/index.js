@@ -5,6 +5,7 @@ import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Api from '../components/Api.js';
 import {
@@ -43,17 +44,36 @@ const createCard = (cardData) => {
       // ...что должно произойти при клике на картинку
       PopupZoomImage.open(name, link);
     },
-    handleLikeClick: (data) => {
+    handleLikeClick: (cardInfo) => {
       // ...что должно произойти при клике на лайк
+      api.setLike(cardInfo.cardID)
+      .then(res => {
+        console.log(res.likes);
+        console.log(userInfo.getUser())
+          if(res.likes.includes(userInfo.getUser())) {
+
+          }
+        
+        console.log('ура');
+      })
     },
-    handleDeleteIconClick: (data) => {
+    handleDeleteIconClick: (cardID) => {
       // ...что должно произойти при клике на удаление
+      popupCardDeleteConfirm.open();
+      popupCardDeleteConfirm.method(() => {
+        api.deleteCard(cardID)
+        .then(res => {
+          console.log(res);
+        })
+      card.removeCardLayout();
+      popupCardDeleteConfirm.close();
+      });
     }
     },
     '#card-template',
-    configGenerationCards
+    configGenerationCards,
+    userInfo.getUser()
   );
-  
   const cardElement = card.generateCard();
   return cardElement;
 };
@@ -111,7 +131,6 @@ const popupProfileEdit = new PopupWithForm('.popup_section_profile-edit', (input
   const [name, status] = inputsValue;
   api.setUserInfo(name, status)
     .then(res => {
-      console.log(res);
       userInfo.setUserInfo(res);
     })
     .catch(error => {
@@ -181,7 +200,7 @@ const api = new Api({
 api.getInitialCards()
   .then(card => {
     console.log(card);
-    cardList.renderItems(card);
+    cardList.renderItems(card.reverse());
   }).catch(error => {
     console.log(error);
   })
@@ -193,10 +212,7 @@ api.getUserInfo()
   })
 
 
-  // fetch('https://mesto.nomoreparties.co/v1/cohort-21/cards/6053110aceeee10036d68fef', {
-  //   method: 'DELETE',
-  //   headers: {
-  //     authorization: 'a3ab0050-d01a-4f5a-9bb4-4a039b0aa641',
-  //     'Content-Type': 'application/json'
-  //   }
-  // })
+// --------- создание экземпляра попапа для подтверждения удаления ---------
+const popupCardDeleteConfirm = new PopupWithSubmit('.popup_section_delete-confirm');
+// ---------------------------------------------------------------------------  
+popupCardDeleteConfirm.setEventListeners();
