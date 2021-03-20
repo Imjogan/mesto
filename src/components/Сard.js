@@ -62,7 +62,11 @@ export default class Card {
     // навешиваем обработчики
     // слушатель лайка
     likeButton.addEventListener('click', () => {
-      this._handleLikeClick(this._cardInfo, this._likes, this._user, likeButton, this._likeCounter);
+      this._handleLikeClick(this._cardInfo,
+                            this._likes,
+                            this._user,
+                            likeButton,
+                            this._likeCounter);
     });
 
 

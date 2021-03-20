@@ -92,6 +92,23 @@
           <h2 class="popup__title-zoom-image"></h2>
         </div>
       </section>
+      <!-- Popup обновления аватара -->
+      <section class="popup popup_section_update-avatar">
+        <div class="popup__container">
+          <button type="button" class="popup__button-close popup__button-close_section_update-avatar"></button>
+          <h2 class="popup__title">Обновить аватар</h2>
+          <form novalidate name="form-update-avatar" class="form form_section_update-avatar">
+            <fieldset class="form__fields">
+              <label class="label">
+                <input type="url" placeholder="Ссылка на фотографию" class="form__input form__input_field_avatar-link"
+                  name="avatarLink" required id="avatar-link-input">
+                <span class="form__error avatar-link-input-error"></span>
+              </label>
+              <button type="submit" class="form__button form__button_section_update-avatar">Сохранить</button>
+            </fieldset>
+          </form>
+        </div>
+      </section>
     </div>
     <!-- template для карточек -->
     <template id="card-template">

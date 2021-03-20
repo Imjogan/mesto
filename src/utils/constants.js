@@ -1,36 +1,5 @@
 const root = document.querySelector('.root');
 
-// объект с карточками
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-]; 
-
-// перевернутый массив
-export const cardsReverse = initialCards.reverse();
-
 // объект с селекторами для валидации форм
 export const configValidation = {
   formSelector: '.form',
@@ -58,6 +27,7 @@ export const elements = root.querySelector('.elements');
 // формы страницы
 export const formProfileEdit = root.querySelector('.form_section_profile-edit');
 export const formAddCard = root.querySelector('.form_section_card-add');
+export const formUpdateAvatar = root.querySelector('.form_section_update-avatar');
 
 // --------------------- попап редактирования профиля ---------------------
 // селектор кнопки редактирования профиля
@@ -66,6 +36,7 @@ export const profileButtonEdit = root.querySelector('.profile__button-edit');
 const popupEdit = root.querySelector('.popup_section_profile-edit');
 // массив инпутов
 export const inputArray = Array.from(popupEdit.querySelectorAll('.form__input'));
+export const buttonSubmitEdit = root.querySelector('.form__button_section_profile-edit');
 // ------------------------------------------------------------------------
 
 // ---------------------- попап добавления карточки -----------------------
@@ -78,4 +49,9 @@ export const buttonSubmitAdd = root.querySelector('.form__button_section_card-ad
 // селекторы формы для увеличения изображения
 export const popupImage = root.querySelector('.popup__image');
 export const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
+// ------------------------------------------------------------------------
+
+// ---------------------- попап обновления аватара ------------------------
+export const avatarIcon = root.querySelector('.profile__cover');
+export const buttonSubmitUpdate = root.querySelector('.form__button_section_update-avatar');
 // ------------------------------------------------------------------------

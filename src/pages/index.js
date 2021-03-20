@@ -19,7 +19,11 @@ import {
         inputArray,
         popupImage,
         popupTitleZoomImage,
-        buttonSubmitAdd
+        buttonSubmitAdd,
+        formUpdateAvatar,
+        avatarIcon,
+        buttonSubmitUpdate,
+        buttonSubmitEdit
 } from '../utils/constants.js';
 
 // ------------------- создание экземпляра класса карточки -------------------
@@ -34,25 +38,25 @@ const createCard = (cardData) => {
     },
     handleCardClick: (name, link) => {
       // ...что должно произойти при клике на картинку
-      PopupZoomImage.open(name, link);
+      popupZoomImage.open(name, link);
     },
     handleLikeClick: (cardInfo, likes, user, likeButton, likesCounter) => {
       // ...что должно произойти при клике на лайк
       let likesOnCard = likes;
       if(likesOnCard.includes(user._id)) {
         api.deleteLike(cardInfo.cardID)
-      .then(res => {
-        likeButton.classList.remove('element__like_active');
-        likesOnCard.splice(likesOnCard.indexOf(user._id),1);
-        likesCounter.textContent = res.likes.length;
-      })
+        .then(res => {
+          likeButton.classList.remove('element__like_active');
+          likesOnCard.splice(likesOnCard.indexOf(user._id),1);
+          likesCounter.textContent = res.likes.length;
+        })
       } else {
         api.setLike(cardInfo.cardID)
-      .then(res => {
-        likeButton.classList.add('element__like_active');
-        likesOnCard.push(user._id);
-        likesCounter.textContent = res.likes.length;
-      })
+        .then(res => {
+          likeButton.classList.add('element__like_active');
+          likesOnCard.push(user._id);
+          likesCounter.textContent = res.likes.length;
+        })
       }
     },
     handleDeleteIconClick: (cardID) => {
@@ -62,9 +66,9 @@ const createCard = (cardData) => {
         api.deleteCard(cardID)
         .then(res => {
           console.log(res);
+          card.removeCardLayout();
+          popupCardDeleteConfirm.close();
         })
-      card.removeCardLayout();
-      popupCardDeleteConfirm.close();
       });
     }
     },
@@ -77,6 +81,83 @@ const createCard = (cardData) => {
 };
 // ---------------------------------------------------------------------------
 
+// --------------- применяем валидацию ко всем формам страницы ---------------
+const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
+formProfileEditValidator.enableValidation();
+
+const formAddCardValidator = new FormValidator(configValidation, formAddCard);
+formAddCardValidator.enableValidation();
+
+const formUpdateAvatarValidator = new FormValidator(configValidation, formUpdateAvatar);
+formUpdateAvatarValidator.enableValidation();
+// ---------------------------------------------------------------------------
+
+// ----------- создание экземпляра попапа для добавления карточки ------------
+const popupCardAdd = new PopupWithForm('.popup_section_card-add', (inputsValue) => {
+  buttonSubmitAdd.textContent = 'Добавление...';
+  const user = {};
+  [user.name, user.link] = inputsValue;
+// вызываем метод для создания карточки на сервере и отрисовки ее на странице
+api.createUserInfo(user.name, user.link)
+  .then(card => {
+    const array = [];
+    array.push(card);
+    cardList.renderItems(array);
+    popupCardAdd.close();
+    buttonSubmitAdd.textContent = 'Добавить';
+  }).catch(error => {
+    console.log(error);
+  });
+});
+// ---------------------------------------------------------------------------
+
+// ---------- создание экземпляра попапа для редактирования профиля ----------
+const popupProfileEdit = new PopupWithForm('.popup_section_profile-edit', (inputsValue) => {
+  buttonSubmitEdit.textContent = 'Сохранение...';
+  const [name, status] = inputsValue;
+  api.setUserInfo(name, status)
+    .then(res => {
+      userInfo.setUserInfo(res);
+      popupProfileEdit.close();
+      buttonSubmitEdit.textContent = 'Сохранить';
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+// ---------------------------------------------------------------------------
+
+// ------------ создание экземпляра попапа для обновления аватара ------------
+const popupAvatarUpdate = new PopupWithForm('.popup_section_update-avatar', (inputValue) => {
+  buttonSubmitUpdate.textContent = 'Сохранение...';
+  const [avatarUrl] = inputValue;
+  api.updateAvatar(avatarUrl)
+    .then(res => {
+      userInfo.setUserInfo(res);
+      popupAvatarUpdate.close();
+      buttonSubmitUpdate.textContent = 'Сохранить';
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+// ---------------------------------------------------------------------------
+
+// ------------ создание экземпляра попапа для открытия карточки -------------
+const popupZoomImage = new PopupWithImage('.popup_section_image-zoom', popupImage, popupTitleZoomImage);
+// ---------------------------------------------------------------------------
+
+// --------- создание экземпляра попапа для подтверждения удаления ---------
+const popupCardDeleteConfirm = new PopupWithSubmit('.popup_section_delete-confirm');
+// ---------------------------------------------------------------------------  
+
+// ------------- создание экземпляра класса информации профиля ---------------
+const userInfo = new UserInfo({
+  profileName: '.profile__name',
+  profileStatus: '.profile__status',
+  profileAvatar: '.profile__avatar'
+});
+// ---------------------------------------------------------------------------
 
 // ------------------------ создание экземпляра секции -----------------------
 const cardList = new Section({
@@ -86,73 +167,54 @@ const cardList = new Section({
 }, elements);
 // ---------------------------------------------------------------------------
 
-// --------------- применяем валидацию ко всем формам страницы ---------------
-const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
-formProfileEditValidator.enableValidation();
+// создаем класс для связи с сервером
+const api = new Api({
+  // базовый адрес обращения
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
+  headers: {
+    // уникальный токен пользователя
+    authorization: 'a3ab0050-d01a-4f5a-9bb4-4a039b0aa641',
+    // MIME Type - формат отправляемых данных (формат JSON)
+    'Content-Type': 'application/json'
+  }
+}); 
 
-const formAddCardValidator = new FormValidator(configValidation, formAddCard);
-formAddCardValidator.enableValidation();
-// ---------------------------------------------------------------------------
-
-// ----------- создание экземпляра попапа для добавления карточки ------------
-const popupCardAdd = new PopupWithForm('.popup_section_card-add', (inputsValue) => {
-  const user = {};
-  [user.name, user.link] = inputsValue;
-  buttonSubmitAdd.textContent = 'Добавление...';
-// вызываем метод для создания карточки на сервере и отрисовки ее на странице
-api.createUserInfo(user.name, user.link)
-  .then(card => {
-    const array = [];
-    array.push(card);
-    cardList.renderItems(array);
-    buttonSubmitAdd.textContent = 'Добавлено';
+// получаем данные о пользователе 
+api.getUserInfo()
+  .then(user => {
+    userInfo.setUserInfo(user);
   }).catch(error => {
     console.log(error);
-  });
-  popupCardAdd.close();
-  buttonSubmitAdd.textContent = 'Добавить';
-});
-// ---------------------------------------------------------------------------
-// навесили слушатели на попап
-popupCardAdd.setEventListeners();
+  })
 
-// ------------- создание экземпляра класса информации профиля ---------------
-const userInfo = new UserInfo({
-                                profileName: '.profile__name',
-                                profileStatus: '.profile__status',
-                                profileAvatar: '.profile__avatar'
-                              });
-// ---------------------------------------------------------------------------
-
-// ---------- создание экземпляра попапа для редактирования профиля ----------
-const popupProfileEdit = new PopupWithForm('.popup_section_profile-edit', (inputsValue) => {
-  const [name, status] = inputsValue;
-  api.setUserInfo(name, status)
-    .then(res => {
-      userInfo.setUserInfo(res);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  popupProfileEdit.close();
-});
-// ---------------------------------------------------------------------------
-// навесили слушатели на попап
-popupProfileEdit.setEventListeners();
-
-// ------------ создание экземпляра попапа для открытия карточки -------------
-const PopupZoomImage = new PopupWithImage('.popup_section_image-zoom', popupImage, popupTitleZoomImage);
-// ---------------------------------------------------------------------------
-// навесили слушатели на попап
-PopupZoomImage.setEventListeners();
+// вызываем метод для взятия данных карточек с сервера и отрисовки их на странице
+api.getInitialCards()
+  .then(card => {
+    cardList.renderItems(card.reverse());
+  }).catch(error => {
+    console.log(error);
+  })
 
 // Слушатели 
+// навесили слушатели на попапы
+popupZoomImage.setEventListeners();
+popupAvatarUpdate.setEventListeners();
+popupCardAdd.setEventListeners();
+popupProfileEdit.setEventListeners();
+popupCardDeleteConfirm.setEventListeners();
 
 // слушатель нажатия на кнопку добавления карточки
 profileButtonAdd.addEventListener('click', () => {
   // сбросили ошибки и заблокировали кнопку
   formAddCardValidator.resetFormErrors();
   popupCardAdd.open();
+});
+
+// слушатель нажатия на иконку аватара
+avatarIcon.addEventListener('click', () => {
+  // сбросили ошибки и заблокировали кнопку
+  formUpdateAvatarValidator.resetFormErrors();
+  popupAvatarUpdate.open();
 });
 
 // слушатель нажатия на кнопку редактирования профиля
@@ -173,37 +235,3 @@ formProfileEdit.addEventListener('submit', function (evt) {
 formAddCard.addEventListener('submit', function (evt) {
   evt.preventDefault();
 });
-
-
-
-// создаем класс для связи с сервером
-const api = new Api({
-  // базовый адрес обращения
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
-  headers: {
-    // уникальный токен пользователя
-    authorization: 'a3ab0050-d01a-4f5a-9bb4-4a039b0aa641',
-    // MIME Type - формат отправляемых данных (формат JSON)
-    'Content-Type': 'application/json'
-  }
-}); 
-
-// вызываем метод для взятия данных карточек с сервера и отрисовки их на странице
-api.getInitialCards()
-  .then(card => {
-    cardList.renderItems(card.reverse());
-  }).catch(error => {
-    console.log(error);
-  })
-
-// получаем данные о пользователе 
-api.getUserInfo()
-  .then(user => {
-    userInfo.setUserInfo(user);
-  })
-
-
-// --------- создание экземпляра попапа для подтверждения удаления ---------
-const popupCardDeleteConfirm = new PopupWithSubmit('.popup_section_delete-confirm');
-// ---------------------------------------------------------------------------  
-popupCardDeleteConfirm.setEventListeners();
