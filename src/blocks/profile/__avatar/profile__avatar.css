@@ -4,17 +4,5 @@
   background-position: top;
   object-fit: cover;
   border-radius: 50%;
-  margin-right: 30px;
-  transition: opacity .4s;
-}
-  
-.profile__avatar:hover {
-  opacity: .6;
-}
-
-@media screen and (max-width: 520px) {
-  .profile__avatar {
-    margin: 0 auto 26px;
-    justify-self: center;
-  }
+  z-index: -1;
 }

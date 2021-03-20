@@ -9,10 +9,13 @@ export default class Api {
     return fetch(this._baseUrl+'/cards', {
       method: 'GET',
       headers: this._headers
-    }).then(res => res.json())
-    .catch(error => {
-      console.log(error);
-    })
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   // получаем информацию о пользователе
@@ -20,10 +23,13 @@ export default class Api {
     return fetch(this._baseUrl+'/users/me', {
       method: 'GET',
       headers: this._headers
-    }).then(res => res.json())
-    .catch(error => {
-      console.log(error);
-    })
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   // отправляем информацию о пользователе
@@ -35,10 +41,13 @@ export default class Api {
         name: name,
         about: status
       })
-    }).then(res => res.json())
-    .catch(error => {
-      console.log(error);
-    })
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   // создаем карточку
@@ -50,10 +59,13 @@ export default class Api {
         name: name,
         link: link
       })
-    }).then(res => res.json())
-    .catch(error => {
-      console.log(error);
-    })
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
   
   // удаляем карточку
@@ -61,10 +73,13 @@ export default class Api {
     return fetch(this._baseUrl+'/cards/'+cardID, {
       method: 'DELETE',
       headers: this._headers
-    }).then(res => res.json())
-    .catch(error => {
-      console.log(error);
-    })
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   // ставим лайк на карточку
@@ -72,9 +87,26 @@ export default class Api {
     return fetch(this._baseUrl+'/cards/likes/'+cardID, {
       method: 'PUT',
       headers: this._headers
-    }).then(res => res.json())
-    .catch(error => {
-      console.log(error);
-    })
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+
+  // ставим лайк на карточку
+  deleteLike(cardID) {
+    return fetch(this._baseUrl+'/cards/likes/'+cardID, {
+      method: 'DELETE',
+      headers: this._headers
+    }).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 }

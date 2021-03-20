@@ -41,26 +41,30 @@ export default class Card {
     this._cardPicture = this._element.querySelector(this._cardImage);
     const deleteButton = this._element.querySelector(this._cardTrash);
     const likeButton = this._element.querySelector(this._cardLike);
-    const likeCounter = this._element.querySelector(this._cardLikeCounter);
+    this._likeCounter = this._element.querySelector(this._cardLikeCounter);
     //  наполняем карточку содержимым из объекта
     this._cardPicture.src = this._cardLink;
     this._cardPicture.alt = this._cardName;
     this._element.querySelector(this._cardTitle).textContent = this._cardName;
-    likeCounter.textContent = this._cardLikes.length;
+    this._likeCounter.textContent = this._cardLikes.length;
 
     
+    this._likes = Array.from(this._cardLikes).map(item => {
+      return item._id;
+    });
+
+    if(this._likes.includes(this._user._id)) {
+      likeButton.classList.add('element__like_active');
+    } else {
+      likeButton.classList.remove('element__like_active');
+    }
+
     // навешиваем обработчики
     // слушатель лайка
     likeButton.addEventListener('click', () => {
-      // console.log(this._cardLikes)
-      // console.log(this._user)
-      if(!this._cardLikes.includes(this._user)) {
-        // console.log('лайк уже стоит')
-      }
-      this._handleLikeClick(this._cardInfo);
-      likeCounter.textContent = this._cardLikes.length + 1;
-      this._element.querySelector(this._cardLike).classList.toggle('element__like_active');
+      this._handleLikeClick(this._cardInfo, this._likes, this._user, likeButton, this._likeCounter);
     });
+
 
     // слушатель удаления
     if(this._cardOwner._id === this._user._id) {
@@ -78,7 +82,12 @@ export default class Card {
     return this._element;
   }
 
-  // приватный метод, удаление карточки
+
+  _setEventListenerts() {
+
+  }
+
+  // метод удаления карточки
   removeCardLayout() {
     this._element.closest(this._cardElement).remove();
   }

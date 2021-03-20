@@ -23,14 +23,6 @@ import {
 } from '../utils/constants.js';
 
 // ------------------- создание экземпляра класса карточки -------------------
-// const createCard = (item) => {
-//   const card = new Card(item, configGenerationCards, '#card-template', handleCardClick);
-//   const cardElement = card.generateCard();
-//   return cardElement;
-// };
-// ---------------------------------------------------------------------------
-
-
 const createCard = (cardData) => {
   const card = new Card({
     data: {
@@ -44,18 +36,24 @@ const createCard = (cardData) => {
       // ...что должно произойти при клике на картинку
       PopupZoomImage.open(name, link);
     },
-    handleLikeClick: (cardInfo) => {
+    handleLikeClick: (cardInfo, likes, user, likeButton, likesCounter) => {
       // ...что должно произойти при клике на лайк
-      api.setLike(cardInfo.cardID)
+      let likesOnCard = likes;
+      if(likesOnCard.includes(user._id)) {
+        api.deleteLike(cardInfo.cardID)
       .then(res => {
-        console.log(res.likes);
-        console.log(userInfo.getUser())
-          if(res.likes.includes(userInfo.getUser())) {
-
-          }
-        
-        console.log('ура');
+        likeButton.classList.remove('element__like_active');
+        likesOnCard.splice(likesOnCard.indexOf(user._id),1);
+        likesCounter.textContent = res.likes.length;
       })
+      } else {
+        api.setLike(cardInfo.cardID)
+      .then(res => {
+        likeButton.classList.add('element__like_active');
+        likesOnCard.push(user._id);
+        likesCounter.textContent = res.likes.length;
+      })
+      }
     },
     handleDeleteIconClick: (cardID) => {
       // ...что должно произойти при клике на удаление
@@ -77,7 +75,7 @@ const createCard = (cardData) => {
   const cardElement = card.generateCard();
   return cardElement;
 };
-
+// ---------------------------------------------------------------------------
 
 
 // ------------------------ создание экземпляра секции -----------------------
@@ -148,12 +146,6 @@ const PopupZoomImage = new PopupWithImage('.popup_section_image-zoom', popupImag
 // навесили слушатели на попап
 PopupZoomImage.setEventListeners();
 
-// ------------- функция для открытия попапа изображения карточки ------------
-// function handleCardClick(name, link) {
-//   PopupZoomImage.open(name, link);
-// }
-// ---------------------------------------------------------------------------
-
 // Слушатели 
 
 // слушатель нажатия на кнопку добавления карточки
@@ -199,7 +191,6 @@ const api = new Api({
 // вызываем метод для взятия данных карточек с сервера и отрисовки их на странице
 api.getInitialCards()
   .then(card => {
-    console.log(card);
     cardList.renderItems(card.reverse());
   }).catch(error => {
     console.log(error);
