@@ -10,7 +10,7 @@ export default class UserInfo {
 
   // метод возвращает объект с данными пользователя
   getUserInfo() {
-    return { 
+    return {
               name: this._profileName.textContent,
               status: this._profileStatus.textContent
             };
@@ -24,6 +24,7 @@ export default class UserInfo {
     this._user = user;
   }
 
+  // возвращаем данные пользователя
   getUser() {
     return this._user;
   }

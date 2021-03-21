@@ -17,7 +17,8 @@ export default class PopupWithSubmit extends Popup {
     });
   }
 
-  method(func) {
+  // создаем колбэк для сабмита из принимаемых данных
+  createHandleSubmit(func) {
     this._handleFormSubmit = func;
   }
 }

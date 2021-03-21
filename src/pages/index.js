@@ -1,5 +1,5 @@
 // Импорты
-import './index.css'; // импорт главного файла стилей 
+import './index.css'; // импорт главного файла стилей
 import Card from '../components/Сard.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
@@ -26,9 +26,21 @@ import {
         buttonSubmitEdit
 } from '../utils/constants.js';
 
+// --------------- применяем валидацию ко всем формам страницы ---------------
+const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
+formProfileEditValidator.enableValidation();
+
+const formAddCardValidator = new FormValidator(configValidation, formAddCard);
+formAddCardValidator.enableValidation();
+
+const formUpdateAvatarValidator = new FormValidator(configValidation, formUpdateAvatar);
+formUpdateAvatarValidator.enableValidation();
+// ---------------------------------------------------------------------------
+
 // ------------------- создание экземпляра класса карточки -------------------
 const createCard = (cardData) => {
   const card = new Card({
+    // объект с данными карточки
     data: {
       name: cardData.name,
       link: cardData.link,
@@ -36,12 +48,12 @@ const createCard = (cardData) => {
       owner: cardData.owner,
       likes: cardData.likes
     },
+    // произойдет при клике на картинку
     handleCardClick: (name, link) => {
-      // ...что должно произойти при клике на картинку
       popupZoomImage.open(name, link);
     },
+    // произойдет при клике на лайк
     handleLikeClick: (cardInfo, likes, user, likeButton, likesCounter) => {
-      // ...что должно произойти при клике на лайк
       let likesOnCard = likes;
       if(likesOnCard.includes(user._id)) {
         api.deleteLike(cardInfo.cardID)
@@ -50,6 +62,9 @@ const createCard = (cardData) => {
           likesOnCard.splice(likesOnCard.indexOf(user._id),1);
           likesCounter.textContent = res.likes.length;
         })
+        .catch(error => {
+          console.log(error);
+        })
       } else {
         api.setLike(cardInfo.cardID)
         .then(res => {
@@ -57,17 +72,23 @@ const createCard = (cardData) => {
           likesOnCard.push(user._id);
           likesCounter.textContent = res.likes.length;
         })
+        .catch(error => {
+          console.log(error);
+        })
       }
     },
+    // произойдет при клике на удаление
     handleDeleteIconClick: (cardID) => {
-      // ...что должно произойти при клике на удаление
       popupCardDeleteConfirm.open();
-      popupCardDeleteConfirm.method(() => {
+      popupCardDeleteConfirm.createHandleSubmit(() => {
         api.deleteCard(cardID)
         .then(res => {
           console.log(res);
           card.removeCardLayout();
           popupCardDeleteConfirm.close();
+        })
+        .catch(error => {
+          console.log(error);
         })
       });
     }
@@ -81,16 +102,51 @@ const createCard = (cardData) => {
 };
 // ---------------------------------------------------------------------------
 
-// --------------- применяем валидацию ко всем формам страницы ---------------
-const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
-formProfileEditValidator.enableValidation();
-
-const formAddCardValidator = new FormValidator(configValidation, formAddCard);
-formAddCardValidator.enableValidation();
-
-const formUpdateAvatarValidator = new FormValidator(configValidation, formUpdateAvatar);
-formUpdateAvatarValidator.enableValidation();
+// ------------- создание экземпляра класса информации профиля ---------------
+const userInfo = new UserInfo({
+  profileName: '.profile__name',
+  profileStatus: '.profile__status',
+  profileAvatar: '.profile__avatar'
+});
 // ---------------------------------------------------------------------------
+
+// ------------------------ создание экземпляра секции -----------------------
+const cardList = new Section({
+  renderer: (cardData) => {
+    cardList.addItem(createCard(cardData));
+  }
+}, elements);
+// ---------------------------------------------------------------------------
+
+// создаем класс для связи с сервером
+const api = new Api({
+  // базовый адрес обращения
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
+  headers: {
+    // уникальный токен пользователя
+    authorization: 'a3ab0050-d01a-4f5a-9bb4-4a039b0aa641',
+    // MIME Type - формат отправляемых данных (формат JSON)
+    'Content-Type': 'application/json'
+  }
+});
+
+// получаем данные о пользователе
+api.getUserInfo()
+  .then(user => {
+    userInfo.setUserInfo(user);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+
+// вызываем метод для взятия данных карточек с сервера и отрисовки их на странице
+api.getInitialCards()
+  .then(card => {
+    cardList.renderItems(card.reverse());
+  })
+  .catch(error => {
+    console.log(error);
+  })
 
 // ----------- создание экземпляра попапа для добавления карточки ------------
 const popupCardAdd = new PopupWithForm('.popup_section_card-add', (inputsValue) => {
@@ -105,7 +161,8 @@ api.createUserInfo(user.name, user.link)
     cardList.renderItems(array);
     popupCardAdd.close();
     buttonSubmitAdd.textContent = 'Добавить';
-  }).catch(error => {
+  })
+  .catch(error => {
     console.log(error);
   });
 });
@@ -149,53 +206,10 @@ const popupZoomImage = new PopupWithImage('.popup_section_image-zoom', popupImag
 
 // --------- создание экземпляра попапа для подтверждения удаления ---------
 const popupCardDeleteConfirm = new PopupWithSubmit('.popup_section_delete-confirm');
-// ---------------------------------------------------------------------------  
-
-// ------------- создание экземпляра класса информации профиля ---------------
-const userInfo = new UserInfo({
-  profileName: '.profile__name',
-  profileStatus: '.profile__status',
-  profileAvatar: '.profile__avatar'
-});
 // ---------------------------------------------------------------------------
 
-// ------------------------ создание экземпляра секции -----------------------
-const cardList = new Section({
-  renderer: (cardData) => {
-    cardList.addItem(createCard(cardData));
-  }
-}, elements);
-// ---------------------------------------------------------------------------
+// Слушатели
 
-// создаем класс для связи с сервером
-const api = new Api({
-  // базовый адрес обращения
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
-  headers: {
-    // уникальный токен пользователя
-    authorization: 'a3ab0050-d01a-4f5a-9bb4-4a039b0aa641',
-    // MIME Type - формат отправляемых данных (формат JSON)
-    'Content-Type': 'application/json'
-  }
-}); 
-
-// получаем данные о пользователе 
-api.getUserInfo()
-  .then(user => {
-    userInfo.setUserInfo(user);
-  }).catch(error => {
-    console.log(error);
-  })
-
-// вызываем метод для взятия данных карточек с сервера и отрисовки их на странице
-api.getInitialCards()
-  .then(card => {
-    cardList.renderItems(card.reverse());
-  }).catch(error => {
-    console.log(error);
-  })
-
-// Слушатели 
 // навесили слушатели на попапы
 popupZoomImage.setEventListeners();
 popupAvatarUpdate.setEventListeners();

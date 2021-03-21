@@ -9,7 +9,8 @@ export default class Api {
     return fetch(this._baseUrl+'/cards', {
       method: 'GET',
       headers: this._headers
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }
@@ -23,7 +24,8 @@ export default class Api {
     return fetch(this._baseUrl+'/users/me', {
       method: 'GET',
       headers: this._headers
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }
@@ -41,7 +43,8 @@ export default class Api {
         name: name,
         about: status
       })
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }
@@ -59,7 +62,8 @@ export default class Api {
         name: name,
         link: link
       })
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }
@@ -67,13 +71,14 @@ export default class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
-  
+
   // удаляем карточку
   deleteCard(cardID) {
     return fetch(this._baseUrl+'/cards/'+cardID, {
       method: 'DELETE',
       headers: this._headers
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }
@@ -87,7 +92,8 @@ export default class Api {
     return fetch(this._baseUrl+'/cards/likes/'+cardID, {
       method: 'PUT',
       headers: this._headers
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }
@@ -101,7 +107,8 @@ export default class Api {
     return fetch(this._baseUrl+'/cards/likes/'+cardID, {
       method: 'DELETE',
       headers: this._headers
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }
@@ -118,7 +125,8 @@ export default class Api {
       body: JSON.stringify({
         avatar: avatarUrl
       })
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
         return res.json();
       }

@@ -2,8 +2,17 @@
 export default class Card {
   // в конструктор принимаем объект с содержимым карточек,
   // объект с селекторами шаблона, селектор template и функция открытия попапа с картинкой
-	constructor({data, handleCardClick, handleLikeClick, handleDeleteIconClick},
-    cardSelector, config, user) {
+	constructor(
+      {
+        data,
+        handleCardClick,
+        handleLikeClick,
+        handleDeleteIconClick
+      },
+      cardSelector,
+      config,
+      user) {
+    // данные пользователя
     this._user = user;
     // callback-и
     this._handleCardClick = handleCardClick;
@@ -33,10 +42,9 @@ export default class Card {
     .content.querySelector(this._cardElement).cloneNode(true);
     return cardElement;
   }
-  
+
   // публичный метод, создает карточку и навешивает обработчики
   generateCard() {
-    // поместили в переменную содержимое приватного метода
     this._element = this._getTemplate();
     this._cardPicture = this._element.querySelector(this._cardImage);
     const deleteButton = this._element.querySelector(this._cardTrash);
@@ -48,11 +56,12 @@ export default class Card {
     this._element.querySelector(this._cardTitle).textContent = this._cardName;
     this._likeCounter.textContent = this._cardLikes.length;
 
-    
+    // собираем массив id-пользователей, поставивших лайк карточке
     this._likes = Array.from(this._cardLikes).map(item => {
       return item._id;
     });
 
+    // делаем проверку на собственный лайк у карточки при первоначальной загрузке страницы
     if(this._likes.includes(this._user._id)) {
       likeButton.classList.add('element__like_active');
     } else {
@@ -69,7 +78,6 @@ export default class Card {
                             this._likeCounter);
     });
 
-
     // слушатель удаления
     if(this._cardOwner._id === this._user._id) {
       deleteButton.addEventListener('click', () => {
@@ -81,17 +89,12 @@ export default class Card {
 
     // слушатель нажатия на изображение
     this._handleCardZoomListener();
-    
+
     // возвращаем готовую карточку
     return this._element;
   }
 
-
-  _setEventListenerts() {
-
-  }
-
-  // метод удаления карточки
+  // метод удаления карточки из разметки
   removeCardLayout() {
     this._element.closest(this._cardElement).remove();
   }

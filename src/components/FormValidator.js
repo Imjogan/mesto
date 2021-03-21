@@ -61,7 +61,7 @@ export default class FormValidator {
     this._toggleButtonState();
     // проходимся по массиву и к каждому полю ввода применяем функцию
     this._inputList.forEach((inputElement) => {
-      // добавляем слушатель события на ввод в поле 
+      // добавляем слушатель события на ввод в поле
       inputElement.addEventListener('input', () => {
         // вызываем функцию проверки валидности поля
         this._checkInputValidity(inputElement);
@@ -99,9 +99,11 @@ export default class FormValidator {
     if (this._hasInvalidInput()) {
       // делаем кнопку неактивной
       this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.disabled = true;
       // иначе - делаем активной
     } else {
       this._buttonElement.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.disabled = false;
     }
   };
 
