@@ -9,22 +9,48 @@ import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Api from '../components/Api.js';
 import {
-        elements,
-        formProfileEdit,
-        formAddCard,
         configGenerationCards,
-        configValidation,
-        profileButtonAdd,
-        profileButtonEdit,
-        inputArray,
-        popupImage,
-        popupTitleZoomImage,
-        buttonSubmitAdd,
-        formUpdateAvatar,
-        avatarIcon,
-        buttonSubmitUpdate,
-        buttonSubmitEdit
+        configValidation
 } from '../utils/constants.js';
+
+// Константы
+// страница index.html
+const root = document.querySelector('.root');
+
+// контейнер для карточек
+const elements = root.querySelector('.elements');
+
+// формы страницы
+const formProfileEdit = root.querySelector('.form_section_profile-edit');
+const formAddCard = root.querySelector('.form_section_card-add');
+const formUpdateAvatar = root.querySelector('.form_section_update-avatar');
+
+// --------------------- попап редактирования профиля ---------------------
+// селектор кнопки редактирования профиля
+const profileButtonEdit = root.querySelector('.profile__button-edit');
+// попап
+const popupEdit = root.querySelector('.popup_section_profile-edit');
+// массив инпутов
+const inputArray = Array.from(popupEdit.querySelectorAll('.form__input'));
+const buttonSubmitEdit = root.querySelector('.form__button_section_profile-edit');
+// ------------------------------------------------------------------------
+
+// ---------------------- попап добавления карточки -----------------------
+// селектор кнопки добавления карточки
+const profileButtonAdd = root.querySelector('.profile__button-add');
+const buttonSubmitAdd = root.querySelector('.form__button_section_card-add');
+// ------------------------------------------------------------------------
+
+// -------------------- попап увеличения изображения ----------------------
+// селекторы формы для увеличения изображения
+const popupImage = root.querySelector('.popup__image');
+const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
+// ------------------------------------------------------------------------
+
+// ---------------------- попап обновления аватара ------------------------
+const avatarIcon = root.querySelector('.profile__cover');
+const buttonSubmitUpdate = root.querySelector('.form__button_section_update-avatar');
+// ------------------------------------------------------------------------
 
 // --------------- применяем валидацию ко всем формам страницы ---------------
 const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
@@ -130,21 +156,13 @@ const api = new Api({
   }
 });
 
-// получаем данные о пользователе
-api.getUserInfo()
-  .then(user => {
-    userInfo.setUserInfo(user);
-  })
-  .catch(error => {
-    console.log(error);
-  })
-
-// вызываем метод для взятия данных карточек с сервера и отрисовки их на странице
-api.getInitialCards()
-  .then(card => {
-    cardList.renderItems(card.reverse());
-  })
-  .catch(error => {
+// получаем данные о пользователе и карточках
+api.getInitialData()
+  .then(data => {
+    const [initialCardsData, initialUserData] = data;
+    userInfo.setUserInfo(initialUserData);
+    cardList.renderItems(initialCardsData.reverse());
+  }).catch(error => {
     console.log(error);
   })
 
