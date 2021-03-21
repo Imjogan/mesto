@@ -240,12 +240,3 @@ profileButtonEdit.addEventListener('click', () => {
   const {name, status} = userInfo.getUserInfo();
   [inputName.value, inputStatus.value] = [name, status];
 });
-
-// слушатели для отмены стандартной отправки форм
-formProfileEdit.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-});
-
-formAddCard.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-});

@@ -5,14 +5,15 @@ export default class PopupWithSubmit extends Popup {
     super(popupSelector);
     // колбэк сабмита формы
     this._popup = document.querySelector(popupSelector);
-    this._buttonSubmit = this._popup.querySelector('.form__button_section_delete-confirm');
+    this._form = this._popup.querySelector('.form');
   }
 
   // слушатель клика
   setEventListeners() {
     super.setEventListeners(); // вызываем родительский метод
     // обработчик сабмита
-    this._buttonSubmit.addEventListener('click', () => {
+    this._form.addEventListener('submit', (evt) => {
+      evt.preventDefault();
       this._handleFormSubmit();
     });
   }
