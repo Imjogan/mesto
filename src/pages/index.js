@@ -1,5 +1,4 @@
-// Импорты
-import './index.css'; // импорт главного файла стилей
+import './index.css';
 import Card from '../components/Сard.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
@@ -13,44 +12,21 @@ import {
         configValidation
 } from '../utils/constants.js';
 
-// Константы
-// страница index.html
 const root = document.querySelector('.root');
-
-// контейнер для карточек
 const elements = root.querySelector('.elements');
-
-// формы страницы
 const formProfileEdit = root.querySelector('.form_section_profile-edit');
 const formAddCard = root.querySelector('.form_section_card-add');
 const formUpdateAvatar = root.querySelector('.form_section_update-avatar');
-
-// --------------------- попап редактирования профиля ---------------------
-// селектор кнопки редактирования профиля
 const profileButtonEdit = root.querySelector('.profile__button-edit');
-// попап
 const popupEdit = root.querySelector('.popup_section_profile-edit');
-// массив инпутов
 const inputArray = Array.from(popupEdit.querySelectorAll('.form__input'));
 const buttonSubmitEdit = root.querySelector('.form__button_section_profile-edit');
-// ------------------------------------------------------------------------
-
-// ---------------------- попап добавления карточки -----------------------
-// селектор кнопки добавления карточки
 const profileButtonAdd = root.querySelector('.profile__button-add');
 const buttonSubmitAdd = root.querySelector('.form__button_section_card-add');
-// ------------------------------------------------------------------------
-
-// -------------------- попап увеличения изображения ----------------------
-// селекторы формы для увеличения изображения
 const popupImage = root.querySelector('.popup__image');
 const popupTitleZoomImage = root.querySelector('.popup__title-zoom-image');
-// ------------------------------------------------------------------------
-
-// ---------------------- попап обновления аватара ------------------------
 const avatarIcon = root.querySelector('.profile__cover');
 const buttonSubmitUpdate = root.querySelector('.form__button_section_update-avatar');
-// ------------------------------------------------------------------------
 
 // --------------- применяем валидацию ко всем формам страницы ---------------
 const formProfileEditValidator = new FormValidator(configValidation, formProfileEdit);
@@ -61,12 +37,9 @@ formAddCardValidator.enableValidation();
 
 const formUpdateAvatarValidator = new FormValidator(configValidation, formUpdateAvatar);
 formUpdateAvatarValidator.enableValidation();
-// ---------------------------------------------------------------------------
 
-// ------------------- создание экземпляра класса карточки -------------------
 const createCard = (cardData) => {
   const card = new Card({
-    // объект с данными карточки
     data: {
       name: cardData.name,
       link: cardData.link,
@@ -74,11 +47,9 @@ const createCard = (cardData) => {
       owner: cardData.owner,
       likes: cardData.likes
     },
-    // произойдет при клике на картинку
     handleCardClick: (name, link) => {
       popupZoomImage.open(name, link);
     },
-    // произойдет при клике на лайк
     handleLikeClick: (cardInfo, likes, user, likeButton, likesCounter) => {
       let likesOnCard = likes;
       if(likesOnCard.includes(user._id)) {
@@ -103,7 +74,6 @@ const createCard = (cardData) => {
         })
       }
     },
-    // произойдет при клике на удаление
     handleDeleteIconClick: (cardID) => {
       popupCardDeleteConfirm.open();
       popupCardDeleteConfirm.createHandleSubmit(() => {
@@ -126,32 +96,24 @@ const createCard = (cardData) => {
   const cardElement = card.generateCard();
   return cardElement;
 };
-// ---------------------------------------------------------------------------
 
-// ------------- создание экземпляра класса информации профиля ---------------
 const userInfo = new UserInfo({
   profileName: '.profile__name',
   profileStatus: '.profile__status',
   profileAvatar: '.profile__avatar'
 });
-// ---------------------------------------------------------------------------
 
-// ------------------------ создание экземпляра секции -----------------------
 const cardList = new Section({
   renderer: (cardData) => {
     cardList.addItem(createCard(cardData));
   }
 }, elements);
-// ---------------------------------------------------------------------------
 
 // создаем класс для связи с сервером
 const api = new Api({
-  // базовый адрес обращения
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
   headers: {
-    // уникальный токен пользователя
     authorization: 'a3ab0050-d01a-4f5a-9bb4-4a039b0aa641',
-    // MIME Type - формат отправляемых данных (формат JSON)
     'Content-Type': 'application/json'
   }
 });
@@ -166,12 +128,10 @@ api.getInitialData()
     console.log(error);
   })
 
-// ----------- создание экземпляра попапа для добавления карточки ------------
 const popupCardAdd = new PopupWithForm('.popup_section_card-add', (inputsValue) => {
   buttonSubmitAdd.textContent = 'Добавление...';
   const user = {};
   [user.name, user.link] = inputsValue;
-// вызываем метод для создания карточки на сервере и отрисовки ее на странице
 api.createUserInfo(user.name, user.link)
   .then(card => {
     const array = [];
@@ -184,9 +144,7 @@ api.createUserInfo(user.name, user.link)
     console.log(error);
   });
 });
-// ---------------------------------------------------------------------------
 
-// ---------- создание экземпляра попапа для редактирования профиля ----------
 const popupProfileEdit = new PopupWithForm('.popup_section_profile-edit', (inputsValue) => {
   buttonSubmitEdit.textContent = 'Сохранение...';
   const [name, status] = inputsValue;
@@ -200,9 +158,7 @@ const popupProfileEdit = new PopupWithForm('.popup_section_profile-edit', (input
       console.log(error);
     });
 });
-// ---------------------------------------------------------------------------
 
-// ------------ создание экземпляра попапа для обновления аватара ------------
 const popupAvatarUpdate = new PopupWithForm('.popup_section_update-avatar', (inputValue) => {
   buttonSubmitUpdate.textContent = 'Сохранение...';
   const [avatarUrl] = inputValue;
@@ -216,42 +172,28 @@ const popupAvatarUpdate = new PopupWithForm('.popup_section_update-avatar', (inp
       console.log(error);
     });
 });
-// ---------------------------------------------------------------------------
 
-// ------------ создание экземпляра попапа для открытия карточки -------------
 const popupZoomImage = new PopupWithImage('.popup_section_image-zoom', popupImage, popupTitleZoomImage);
-// ---------------------------------------------------------------------------
 
-// --------- создание экземпляра попапа для подтверждения удаления ---------
 const popupCardDeleteConfirm = new PopupWithSubmit('.popup_section_delete-confirm');
-// ---------------------------------------------------------------------------
 
-// Слушатели
-
-// навесили слушатели на попапы
 popupZoomImage.setEventListeners();
 popupAvatarUpdate.setEventListeners();
 popupCardAdd.setEventListeners();
 popupProfileEdit.setEventListeners();
 popupCardDeleteConfirm.setEventListeners();
 
-// слушатель нажатия на кнопку добавления карточки
 profileButtonAdd.addEventListener('click', () => {
-  // сбросили ошибки и заблокировали кнопку
   formAddCardValidator.resetFormErrors();
   popupCardAdd.open();
 });
 
-// слушатель нажатия на иконку аватара
 avatarIcon.addEventListener('click', () => {
-  // сбросили ошибки и заблокировали кнопку
   formUpdateAvatarValidator.resetFormErrors();
   popupAvatarUpdate.open();
 });
 
-// слушатель нажатия на кнопку редактирования профиля
 profileButtonEdit.addEventListener('click', () => {
-  // сбросили ошибки и заблокировали кнопку
   formProfileEditValidator.resetFormErrors();
   popupProfileEdit.open();
   const [inputName, inputStatus] = inputArray;
